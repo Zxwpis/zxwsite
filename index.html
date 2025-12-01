@@ -1,129 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ZXWY — PC Tweaks Hub</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="description" content="ZXWY — a clean and safe hub for PC tweaks, tools, and optimization resources.">
+  <meta charset="UTF-8" />
+  <title>ZXWY — Neon PC Tweaks Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="ZXWY — neon-styled safe hub for PC tweaks, tools and optimization resources."
+  />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- BOT CHECK OVERLAY -->
+  <div id="bot-check-overlay">
+    <div class="bot-card">
+      <h2>Human check</h2>
+      <p>
+        To enter ZXWY, please <strong>press and hold</strong> the button
+        below for about <strong>2 seconds</strong>.
+      </p>
 
-    <header class="header">
-        <div class="container header-inner">
+      <button id="bot-check-button">
+        Press and hold to prove you're human
+      </button>
 
-            <div class="logo">
-                <span class="logo-main">ZXWY</span>
-                <span class="logo-sub">PC Tweaks Hub</span>
-            </div>
+      <p class="bot-hint">
+        This is a simple check and does not collect any personal data.
+      </p>
+    </div>
+  </div>
 
-            <nav class="nav">
-                <a href="#start">Start</a>
-                <a href="#resources">Resources</a>
-                <a href="#tools">Tools</a>
-                <a href="#faq">FAQ</a>
-            </nav>
+  <!-- BACKGROUND EFFECT -->
+  <div class="bg-orbit"></div>
+  <div class="bg-grid"></div>
 
-            <div class="social">
-                <a href="https://t.me/ZXWYTWEAKING" target="_blank" class="social-link">Telegram</a>
-                <a href="https://discord.gg/CYk5zyHY" target="_blank" class="social-link">Discord</a>
-            </div>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-main">ZXWY</span>
+        <span class="logo-sub">PC Tweaks Hub</span>
+      </div>
 
+      <nav class="nav">
+        <a href="#hero">Home</a>
+        <a href="#resources">Tweaks</a>
+        <a href="#tools">Tools</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="social">
+        <a href="https://t.me/ZXWYTWEAKING" target="_blank" class="social-link">
+          Telegram
+        </a>
+        <a href="https://discord.gg/CYk5zyHY" target="_blank" class="social-link">
+          Discord
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section id="hero" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text animate-on-scroll">
+          <p class="hero-label">NEON SAFE TWEAKS</p>
+          <h1 class="glitch-title" data-text="ZXWY">
+            ZXWY
+          </h1>
+          <p class="hero-desc">
+            A neon-styled, safe and clean hub for PC tweaks, optimization
+            and tools — without shady software or dangerous system hacks.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#resources" class="btn btn-primary">
+              Open tweaks collection
+            </a>
+            <a href="#about" class="btn btn-ghost">
+              Learn more
+            </a>
+          </div>
+
+          <p class="hero-note">
+            ⚡ Always create a restore point before any tweak. Stability and
+            safety first.
+          </p>
         </div>
-    </header>
 
-    <main>
-
-        <section class="hero" id="start">
-            <div class="container hero-inner">
-                <div class="hero-text">
-                    <h1>ZXWY — Safe & Clean PC Tweaks Hub</h1>
-                    <p>
-                        Welcome to ZXWY — a clean and safe place for optimization resources, 
-                        tools, and guides without harmful software or risky system modifications.
-                    </p>
-                    <a href="#resources" class="btn-primary">Open PC Tweaks Folder</a>
-                </div>
-
-                <div class="hero-card">
-                    <h2>Before You Continue</h2>
-                    <ul>
-                        <li>Create a system restore point.</li>
-                        <li>Use only trusted tools.</li>
-                        <li>Never disable antivirus or Windows protection.</li>
-                    </ul>
-                </div>
+        <div class="hero-panel animate-on-scroll delay-1">
+          <div class="hero-panel-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="panel-title">live system pulse</span>
+          </div>
+          <div class="hero-panel-body">
+            <div class="metric">
+              <span class="metric-label">FPS Stability</span>
+              <div class="metric-bar">
+                <div class="metric-fill metric-fill-1"></div>
+              </div>
             </div>
-        </section>
-
-        <section class="section" id="resources">
-            <div class="container">
-                <h2>PC Tweaks & Optimization Resources</h2>
-                <p class="section-subtitle">
-                    All tweak files, presets, and guides are stored in a shared Google Drive folder.
-                </p>
-
-                <a class="drive-btn" href="https://drive.google.com/drive/folders/1B1o5hSdPQonFPWcHOLST2-W_1VyHmBb1?usp=drive_link" target="_blank">
-                    🔗 Open Google Drive Folder
-                </a>
+            <div class="metric">
+              <span class="metric-label">System Clarity</span>
+              <div class="metric-bar">
+                <div class="metric-fill metric-fill-2"></div>
+              </div>
             </div>
-        </section>
-
-        <section class="section section-dark" id="tools">
-            <div class="container">
-                <h2>Useful Tools</h2>
-                <p class="section-subtitle">Free and safe utilities for monitoring and system diagnostics.</p>
-
-                <div class="grid">
-                    <article class="card">
-                        <h3>System Monitoring</h3>
-                        <ul>
-                            <li>HWInfo — full hardware monitoring</li>
-                            <li>MSI Afterburner — FPS & temperature overlay</li>
-                        </ul>
-                    </article>
-
-                    <article class="card">
-                        <h3>Stability Testing</h3>
-                        <ul>
-                            <li>Cinebench — CPU stress test</li>
-                            <li>3DMark — GPU benchmark</li>
-                        </ul>
-                    </article>
-                </div>
+            <div class="metric">
+              <span class="metric-label">Risk Level</span>
+              <div class="metric-bar metric-bar-low">
+                <div class="metric-fill metric-fill-3"></div>
+              </div>
             </div>
-        </section>
-
-        <section class="section" id="faq">
-            <div class="container">
-                <h2>FAQ</h2>
-
-                <div class="faq">
-                    <details>
-                        <summary>Are the tweaks safe?</summary>
-                        <p>Yes. All tweaks in the Drive folder are validated and safe.</p>
-                    </details>
-
-                    <details>
-                        <summary>Do I need to disable antivirus?</summary>
-                        <p>No. Never disable Windows Security or Defender.</p>
-                    </details>
-
-                    <details>
-                        <summary>Will tweaks increase FPS?</summary>
-                        <p>Some tweaks can increase stability and reduce stutters.</p>
-                    </details>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-inner">
-            <p>ZXWY — 2025</p>
-            <p class="footer-note">Use all tweaks responsibly. Keep your system safe.</p>
+            <p class="metric-note">
+              Designed for gamers & power users. No registry nukes, no “kill
+              Defender” scripts.
+            </p>
+          </div>
         </div>
-    </footer>
+      </div>
+    </section>
 
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <h2>What is ZXWY?</h2>
+          <p>
+            ZXWY is a curated pack of PC tweaks and tools with a focus on
+            <strong>clarity</strong>, <strong>reversibility</strong> and
+            <strong>zero bullshit</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card animate-on-scroll delay-1">
+            <h3>Safe by design</h3>
+            <p>
+              Only clear tweaks, no “mystery scripts”. Each change is
+              described and can be reverted.
+            </p>
+          </article>
+
+          <article class="card animate-on-scroll delay-2">
+            <h3>Performance focus</h3>
+            <p>
+              Reduce stutter, clean background noise, free resources for
+              games and creative tools.
+            </p>
+          </article>
+
+          <article class="card animate-on-scroll delay-3">
+            <h3>No snake oil</h3>
+            <p>
+              No fake “+300 FPS” promises. Only real-world tweaks that
+              actually help.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES / DRIVE -->
+    <section id="resources" class="section section-glass">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <h2>PC Tweaks Collection</h2>
+          <p>
+            All tweak files, presets and guides are stored in a shared
+            Google Drive folder.
+          </p>
+        </div>
+
+        <div class="drive-block animate-on-scroll delay-1">
+          <p class="drive-note">
+            The folder includes tweaks, configs, .reg files and
+            documentation. Always read the description inside before
+            applying anything.
+          </p>
+
+          <a
+            href="https://drive.google.com/drive/folders/1B1o5hSdPQonFPWcHOLST2-W_1VyHmBb1?usp=drive_link"
+            target="_blank"
+            class="btn btn-drive"
+          >
+            🔗 Open Google Drive folder
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools" class="section">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <h2>Recommended Tools</h2>
+          <p>Free utilities that pair well with ZXWY tweaks.</p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card animate-on-scroll delay-1">
+            <h3>Monitoring</h3>
+            <ul>
+              <li>HWInfo — full hardware monitoring</li>
+              <li>MSI Afterburner — in-game overlay & graphs</li>
+            </ul>
+          </article>
+
+          <article class="card animate-on-scroll delay-2">
+            <h3>Bench & Stress</h3>
+            <ul>
+              <li>Cinebench — CPU stability</li>
+              <li>3DMark — GPU testing</li>
+            </ul>
+          </article>
+
+          <article class="card animate-on-scroll delay-3">
+            <h3>System hygiene</h3>
+            <ul>
+              <li>Autoruns — control startup entries</li>
+              <li>Windows built-in tools first, cleaners later</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section section-glass">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <h2>FAQ</h2>
+          <p>Common questions about using ZXWY tweaks.</p>
+        </div>
+
+        <div class="faq animate-on-scroll delay-1">
+          <details>
+            <summary>Are these tweaks safe?</summary>
+            <p>
+              They are tested and reversible, but any system change has
+              risk. Always create a restore point before applying tweaks.
+            </p>
+          </details>
+
+          <details>
+            <summary>Do I need to disable antivirus?</summary>
+            <p>
+              No. You should never disable Windows Defender or core system
+              protection to use these tweaks.
+            </p>
+          </details>
+
+          <details>
+            <summary>Will I get more FPS in games?</summary>
+            <p>
+              Some tweaks can reduce stutter and background load, which often
+              improves FPS stability rather than raw numbers.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>ZXWY — Neon Tweaks Hub · 2025</p>
+      <p class="footer-note">
+        Use tweaks responsibly. Backup before changes. Sleep, drink water,
+        defrag your brain, not your SSD.
+      </p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Simple "I'm human" check with hold button + localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const overlay = document.getElementById("bot-check-overlay");
+      const btn = document.getElementById("bot-check-button");
+      const HUMAN_KEY = "zxwy_human_verified_v1";
+
+      // If already verified this browser, skip check
+      if (localStorage.getItem(HUMAN_KEY) === "1") {
+        overlay.classList.add("hidden");
+      } else {
+        overlay.classList.remove("hidden");
+      }
+
+      let holdTimeout = null;
+      let isHolding = false;
+
+      const startHold = () => {
+        if (isHolding) return;
+        isHolding = true;
+        btn.classList.add("holding");
+        holdTimeout = setTimeout(() => {
+          localStorage.setItem(HUMAN_KEY, "1");
+          overlay.classList.add("hidden");
+        }, 1800); // ~1.8s
+      };
+
+      const endHold = () => {
+        isHolding = false;
+        btn.classList.remove("holding");
+        if (holdTimeout) {
+          clearTimeout(holdTimeout);
+          holdTimeout = null;
+        }
+      };
+
+      btn.addEventListener("mousedown", startHold);
+      btn.addEventListener("touchstart", startHold);
+
+      btn.addEventListener("mouseup", endHold);
+      btn.addEventListener("mouseleave", endHold);
+      btn.addEventListener("touchend", endHold);
+      btn.addEventListener("touchcancel", endHold);
+
+      // Scroll animations
+      const animated = document.querySelectorAll(".animate-on-scroll");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      animated.forEach((el) => observer.observe(el));
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const targetId = link.getAttribute("href").substring(1);
+          const target = document.getElementById(targetId);
+          if (target) {
+            e.preventDefault();
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
