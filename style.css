@@ -1168,4 +1168,71 @@ button:active, .btn:active, .zxwy-btn:active {
 
 }
 
+/* ========== UNIVERSAL ZXWY BUTTON ========== */
+button, .btn, .zxwy-btn {
+    position: relative;
+    overflow: hidden;
+
+    padding: 12px 26px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 255, 120, 0.4);
+
+    background: rgba(0, 255, 120, 0.12);
+    color: white;
+    font-weight: 500;
+
+    backdrop-filter: blur(14px) brightness(1.15);
+    -webkit-backdrop-filter: blur(14px) brightness(1.15);
+
+    box-shadow: 0 0 18px rgba(0, 255, 120, 0.35);
+
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Hover: сильніший блюр + яскравий неон */
+button:hover, .btn:hover, .zxwy-btn:hover {
+    background: rgba(0, 255, 120, 0.22);
+    backdrop-filter: blur(22px) brightness(1.3);
+    box-shadow: 0 0 25px rgba(0, 255, 120, 0.55);
+    transform: translateY(-2px);
+}
+
+/* Active: легке стиснення */
+button:active, .btn:active, .zxwy-btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 12px rgba(0, 255, 120, 0.25);
+}
+
+/* ========== ПУЛЬСУЮЧЕ НЕОНОВЕ СВІТІННЯ ========== */
+button::before, .btn::before, .zxwy-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 255, 120, 0.28),
+        rgba(0, 255, 120, 0.05)
+    );
+
+    opacity: 0;
+    transition: 0.4s ease;
+}
+
+/* Пульсація при наведенні */
+button:hover::before,
+.btn:hover::before,
+.zxwy-btn:hover::before {
+    opacity: 1;
+    animation: zxwyPulse 2s infinite ease-out;
+}
+
+/* Анімація пульсації */
+@keyframes zxwyPulse {
+    0% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 0.4; }
+}
 
