@@ -1137,6 +1137,35 @@ body {
   .preset-purchase {
     align-items: flex-start;
   }
+  
+  button, .btn, .zxwy-btn {
+    backdrop-filter: blur(14px) brightness(1.1);
+    -webkit-backdrop-filter: blur(14px) brightness(1.1);
+    background: rgba(0, 255, 120, 0.12); /* зелений скляний відтінок */
+    border: 1px solid rgba(0, 255, 120, 0.35);
+    color: white;
+
+    padding: 12px 22px;
+    border-radius: 14px;
+
+    box-shadow: 0 0 15px rgba(0, 255, 120, 0.25);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+/* Ефект при наведенні */
+button:hover, .btn:hover, .zxwy-btn:hover {
+    background: rgba(0, 255, 120, 0.22);
+    box-shadow: 0 0 22px rgba(0, 255, 120, 0.4);
+    backdrop-filter: blur(20px) brightness(1.25);
+}
+
+/* Ефект при натисканні */
+button:active, .btn:active, .zxwy-btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 10px rgba(0, 255, 120, 0.2);
+}
+
 }
 
 
