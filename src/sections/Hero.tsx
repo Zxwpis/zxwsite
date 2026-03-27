@@ -83,11 +83,11 @@ export function Hero() {
               >
                 {/* FIX 1: Added padding around the logo container to prevent glow clipping */}
                 <div className="relative p-2 flex-shrink-0">
-                  <div className="absolute inset-0 bg-[#22c55e]/30 rounded-2xl blur-xl" />
+                  <div className="absolute inset-0 bg-[#22c55e]/30 blur-xl" />
                   <img 
                     src="/logo.png" 
                     alt="ZXWY V2 Logo" 
-                    className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl object-contain"
+                    className="relative w-16 h-16 md:w-20 md:h-20 object-contain"
                     style={{ 
                       filter: 'drop-shadow(0 0 30px rgba(34, 197, 94, 0.5))',
                       imageRendering: 'crisp-edges'
