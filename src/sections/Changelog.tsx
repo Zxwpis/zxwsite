@@ -184,7 +184,7 @@ export function Changelog() {
                     {/* Version Info */}
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <h3 className="text-xl font-bold">Version {entry.version}</h3>
+                        <h3 className="text-xl font-bold text-display tracking-wide">Version {entry.version}</h3>
                         {entry.type === 'major' && (
                           <span className="px-2 py-0.5 rounded bg-[#22c55e]/10 text-[#22c55e] text-xs font-medium">
                             Major

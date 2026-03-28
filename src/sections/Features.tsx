@@ -155,7 +155,7 @@ export function Features() {
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-[#22c55e] transition-colors duration-300">
+              <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-[#22c55e] transition-colors duration-300 text-display tracking-wide">
                 {feature.title}
               </h3>
               <p className="text-white/50 mb-4 text-sm leading-relaxed">

@@ -61,7 +61,7 @@ export function Download() {
             <DownloadIcon className="w-4 h-4 text-[#22c55e]" />
             <span className="text-sm font-medium text-[#22c55e]">Get Started</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-display">
             Download <span className="gradient-text">ZXWY V2</span>
           </h2>
           <p className="text-lg text-white/60">
@@ -97,7 +97,7 @@ export function Download() {
                       }}
                     />
                     <div>
-                      <h3 className="text-2xl font-bold">ZXWY V2</h3>
+                      <h3 className="text-2xl font-bold text-display tracking-wide">ZXWY V2</h3>
                       <p className="text-sm text-white/50">Latest Version</p>
                     </div>
                   </div>
@@ -107,7 +107,7 @@ export function Download() {
                 </div>
 
                 {/* File Info */}
-                <div className="space-y-3 mb-8 p-5 rounded-xl bg-white/5">
+                <div className="space-y-3 mb-8 p-5 bg-white/5">
                   {[
                     { label: 'Version', value: '2.0.0' },
                     { label: 'File Size', value: '~15 MB' },
@@ -140,7 +140,7 @@ export function Download() {
                 {/* Copy Link */}
                 <motion.button
                   onClick={handleCopyLink}
-                  className="w-full mt-3 flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl border border-white/10 hover:border-[#22c55e]/50 hover:bg-[#22c55e]/5 transition-all duration-300 text-sm text-white/60"
+                  className="w-full mt-3 flex items-center justify-center gap-2 py-3.5 px-4 border border-white/10 hover:border-[#22c55e]/50 hover:bg-[#22c55e]/5 transition-all duration-300 text-sm text-white/60"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
@@ -158,7 +158,7 @@ export function Download() {
                 </motion.button>
 
                 {/* Warning */}
-                <div className="flex items-start gap-3 mt-6 p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
+                <div className="flex items-start gap-3 mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30">
                   <AlertTriangle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
                   <div className="text-sm">
                     <p className="font-medium text-yellow-500 mb-1">Important</p>
@@ -192,7 +192,7 @@ export function Download() {
                 {requirements.map((req, index) => (
                   <motion.div 
                     key={req}
-                    className="flex items-center gap-3 p-3 rounded-xl glass-card"
+                    className="flex items-center gap-3 p-3 glass-card"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -214,7 +214,7 @@ export function Download() {
                 {steps.map((step, index) => (
                   <motion.div
                     key={step.step}
-                    className="flex items-start gap-4 p-4 rounded-xl glass-card hover:border-[#22c55e]/30 transition-all duration-300"
+                    className="flex items-start gap-4 p-4 glass-card hover:border-[#22c55e]/30 transition-all duration-300"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -234,14 +234,14 @@ export function Download() {
             </div>
 
             {/* Support */}
-            <div className="p-5 rounded-xl glass-card border-[#22c55e]/30">
+            <div className="p-5 glass-card border-[#22c55e]/30">
               <p className="text-sm text-white/50 mb-3">Need help?</p>
               <div className="flex gap-3">
                 <motion.a
                   href="https://discord.gg/UQmBUXct"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#5865F2] text-sm font-medium transition-all duration-300"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#5865F2] text-sm font-medium transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -252,7 +252,7 @@ export function Download() {
                   href="https://t.me/ZXWYTWEAKING"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0088cc]/10 hover:bg-[#0088cc]/20 border border-[#0088cc]/30 text-[#0088cc] text-sm font-medium transition-all duration-300"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-[#0088cc]/10 hover:bg-[#0088cc]/20 border border-[#0088cc]/30 text-[#0088cc] text-sm font-medium transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

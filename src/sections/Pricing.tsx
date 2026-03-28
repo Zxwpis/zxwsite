@@ -153,9 +153,9 @@ export function Pricing() {
                 `}>
                   <plan.icon className="w-8 h-8 text-[#22c55e]" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                <h3 className="text-2xl font-bold mb-2 text-display tracking-wide">{plan.name}</h3>
                 <div className="flex items-baseline justify-center gap-1 mb-3">
-                  <span className="text-4xl lg:text-5xl font-bold">{plan.price}</span>
+                  <span className="text-4xl lg:text-5xl font-bold stat-number">{plan.price}</span>
                   <span className="text-white/50">one-time</span>
                 </div>
                 <p className="text-sm text-white/50">{plan.description}</p>

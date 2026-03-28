@@ -91,7 +91,7 @@ export function Header() {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-bold tracking-tight">
+                <span className="text-lg font-bold tracking-widest text-display">
                   ZXWY <span className="text-[#22c55e]">V2</span>
                 </span>
                 <span className="text-[9px] text-white/40 -mt-0.5 tracking-[0.2em] uppercase">
@@ -140,7 +140,7 @@ export function Header() {
                   href="https://t.me/ZXWYTWEAKING"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 text-white/50 hover:text-[#22c55e] rounded-xl hover:bg-white/5 transition-all duration-300"
+                  className="p-2.5 text-white/50 hover:text-[#22c55e] hover:bg-white/5 transition-all duration-300"
                   aria-label="Telegram"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -151,7 +151,7 @@ export function Header() {
                   href="https://discord.gg/UQmBUXct"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 text-white/50 hover:text-[#22c55e] rounded-xl hover:bg-white/5 transition-all duration-300"
+                  className="p-2.5 text-white/50 hover:text-[#22c55e] hover:bg-white/5 transition-all duration-300"
                   aria-label="Discord"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -174,7 +174,7 @@ export function Header() {
               {/* Mobile Menu Toggle */}
               <motion.button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2.5 text-white/70 hover:text-white rounded-xl hover:bg-white/5 transition-all duration-300"
+                className="lg:hidden p-2.5 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
                 aria-label="Toggle menu"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -244,7 +244,7 @@ export function Header() {
                   href="https://t.me/ZXWYTWEAKING"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 bg-[#0088cc]/10 hover:bg-[#0088cc]/20 border border-[#0088cc]/30 rounded-xl text-[#0088cc] font-medium transition-all duration-300"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-[#0088cc]/10 hover:bg-[#0088cc]/20 border border-[#0088cc]/30 text-[#0088cc] font-medium transition-all duration-300"
                 >
                   <MessageCircle className="w-5 h-5" />
                   Telegram
@@ -253,7 +253,7 @@ export function Header() {
                   href="https://discord.gg/UQmBUXct"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 rounded-xl text-[#5865F2] font-medium transition-all duration-300"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#5865F2] font-medium transition-all duration-300"
                 >
                   <Gamepad2 className="w-5 h-5" />
                   Discord

@@ -64,7 +64,7 @@ export function Footer() {
                 onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 0px rgba(34,197,94,0))')}
               />
               <div>
-                <span className="text-xl font-bold">ZXWY <span className="text-[#22c55e]">V2</span></span>
+                <span className="text-xl font-bold text-display tracking-widest">ZXWY <span className="text-[#22c55e]">V2</span></span>
               </div>
             </motion.a>
             <p className="text-white/50 text-sm mb-6 max-w-xs">
