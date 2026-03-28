@@ -48,11 +48,20 @@ export function Footer() {
               className="flex items-center gap-3 mb-4 group"
               whileHover={{ scale: 1.02 }}
             >
-              <img 
-                src="/logo.png" 
-                alt="ZXWY V2 Logo" 
-                className="w-10 h-10 rounded-xl object-contain group-hover:shadow-lg group-hover:shadow-[#22c55e]/20 transition-shadow"
-                style={{ imageRendering: 'crisp-edges' }}
+              <img
+                src="/logo.png"
+                alt="ZXWY V2 Logo"
+                className="w-10 h-10 object-contain"
+                loading="eager"
+                width={40}
+                height={40}
+                style={{
+                  imageRendering: 'crisp-edges',
+                  filter: 'drop-shadow(0 0 0px rgba(34,197,94,0))',
+                  transition: 'filter 0.3s ease',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(34,197,94,0.6))')}
+                onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 0px rgba(34,197,94,0))')}
               />
               <div>
                 <span className="text-xl font-bold">ZXWY <span className="text-[#22c55e]">V2</span></span>
