@@ -106,7 +106,7 @@ export function Changelog() {
     <section id="changelog" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#22c55e]/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="section-container relative z-10 max-w-4xl mx-auto">
@@ -118,9 +118,9 @@ export function Changelog() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 mb-6">
-            <GitCommit className="w-4 h-4 text-[#22c55e]" />
-            <span className="text-sm font-medium text-[#22c55e]">Updates</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
+            <GitCommit className="w-4 h-4 text-[#35fe34]" />
+            <span className="text-sm font-medium text-[#35fe34]">Updates</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="gradient-text">Changelog</span>
@@ -149,7 +149,7 @@ export function Changelog() {
                   className={`
                     relative rounded-2xl border overflow-hidden transition-all duration-300
                     ${isLatest 
-                      ? 'bg-[#22c55e]/5 border-[#22c55e]/30' 
+                      ? 'bg-[#35fe34]/5 border-[#35fe34]/30' 
                       : 'glass-card'
                     }
                   `}
@@ -157,7 +157,7 @@ export function Changelog() {
                   {/* Latest Badge */}
                   {isLatest && (
                     <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 rounded-full bg-[#22c55e] text-black text-xs font-semibold">
+                      <span className="px-3 py-1 rounded-full bg-[#35fe34] text-black text-xs font-semibold">
                         Latest
                       </span>
                     </div>
@@ -172,9 +172,9 @@ export function Changelog() {
                     <div className={`
                       w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0
                       ${entry.type === 'major' 
-                        ? 'bg-[#22c55e]/20 text-[#22c55e]' 
+                        ? 'bg-[#35fe34]/20 text-[#35fe34]' 
                         : entry.type === 'minor'
-                        ? 'bg-[#22c55e]/10 text-[#22c55e]/80'
+                        ? 'bg-[#35fe34]/10 text-[#35fe34]/80'
                         : 'bg-white/5 text-white/50'
                       }
                     `}>
@@ -186,7 +186,7 @@ export function Changelog() {
                       <div className="flex items-center gap-3 mb-1">
                         <h3 className="text-xl font-bold text-display tracking-wide">Version {entry.version}</h3>
                         {entry.type === 'major' && (
-                          <span className="px-2 py-0.5 rounded bg-[#22c55e]/10 text-[#22c55e] text-xs font-medium">
+                          <span className="px-2 py-0.5 rounded bg-[#35fe34]/10 text-[#35fe34] text-xs font-medium">
                             Major
                           </span>
                         )}

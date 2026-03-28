@@ -90,7 +90,7 @@ export function Pricing() {
     <section id="pricing" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[#22c55e]/5 rounded-full blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="section-container relative z-10">
@@ -102,9 +102,9 @@ export function Pricing() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 mb-6">
-            <Crown className="w-4 h-4 text-[#22c55e]" />
-            <span className="text-sm font-medium text-[#22c55e]">Premium Plans</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
+            <Crown className="w-4 h-4 text-[#35fe34]" />
+            <span className="text-sm font-medium text-[#35fe34]">Premium Plans</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Choose Your <span className="gradient-text">Optimization Level</span>
@@ -131,7 +131,7 @@ export function Pricing() {
               className={`
                 relative rounded-2xl p-6 lg:p-8 transition-all duration-500
                 ${plan.highlighted 
-                  ? 'bg-gradient-to-b from-[#22c55e]/20 to-[#22c55e]/5 border-2 border-[#22c55e]/50' 
+                  ? 'bg-gradient-to-b from-[#35fe34]/20 to-[#35fe34]/5 border-2 border-[#35fe34]/50' 
                   : 'glass-card'
                 }
               `}
@@ -139,7 +139,7 @@ export function Pricing() {
               {/* Popular Badge */}
               {plan.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1.5 rounded-full bg-[#22c55e] text-black text-sm font-semibold shadow-lg shadow-[#22c55e]/30">
+                  <span className="px-4 py-1.5 rounded-full bg-[#35fe34] text-black text-sm font-semibold shadow-lg shadow-[#35fe34]/30">
                     Most Popular
                   </span>
                 </div>
@@ -149,9 +149,9 @@ export function Pricing() {
               <div className="text-center mb-8">
                 <div className={`
                   w-16 h-16 rounded-xl mx-auto mb-4 flex items-center justify-center
-                  ${plan.highlighted ? 'bg-[#22c55e]/20' : 'bg-white/5'}
+                  ${plan.highlighted ? 'bg-[#35fe34]/20' : 'bg-white/5'}
                 `}>
-                  <plan.icon className="w-8 h-8 text-[#22c55e]" />
+                  <plan.icon className="w-8 h-8 text-[#35fe34]" />
                 </div>
                 <h3 className="text-2xl font-bold mb-2 text-display tracking-wide">{plan.name}</h3>
                 <div className="flex items-baseline justify-center gap-1 mb-3">
@@ -172,8 +172,8 @@ export function Pricing() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <div className="w-5 h-5 rounded-full bg-[#22c55e]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-[#22c55e]" />
+                    <div className="w-5 h-5 rounded-full bg-[#35fe34]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="w-3 h-3 text-[#35fe34]" />
                     </div>
                     <span className="text-sm text-white/70">{feature}</span>
                   </motion.li>
@@ -212,7 +212,7 @@ export function Pricing() {
               href="https://discord.gg/UQmBUXct" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-[#22c55e] hover:underline"
+              className="text-[#35fe34] hover:underline"
             >
               Contact us on Discord
             </a>

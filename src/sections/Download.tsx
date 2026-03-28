@@ -45,7 +45,7 @@ export function Download() {
     <section id="download" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#22c55e]/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="section-container relative z-10">
@@ -57,9 +57,9 @@ export function Download() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 mb-6">
-            <DownloadIcon className="w-4 h-4 text-[#22c55e]" />
-            <span className="text-sm font-medium text-[#22c55e]">Get Started</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
+            <DownloadIcon className="w-4 h-4 text-[#35fe34]" />
+            <span className="text-sm font-medium text-[#35fe34]">Get Started</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-display">
             Download <span className="gradient-text">ZXWY V2</span>
@@ -80,7 +80,7 @@ export function Download() {
           >
             <div className="relative">
               {/* Glow */}
-              <div className="absolute -inset-4 bg-[#22c55e]/20 rounded-3xl blur-2xl opacity-50" />
+              <div className="absolute -inset-4 bg-[#35fe34]/20 rounded-3xl blur-2xl opacity-50" />
               
               {/* Card */}
               <div className="relative glass-card p-8">
@@ -93,7 +93,7 @@ export function Download() {
                       className="w-14 h-14 object-contain"
                       style={{ 
                         imageRendering: 'crisp-edges',
-                        filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.4))',
+                        filter: 'drop-shadow(0 0 8px rgba(53,254,52,0.4))',
                       }}
                     />
                     <div>
@@ -101,7 +101,7 @@ export function Download() {
                       <p className="text-sm text-white/50">Latest Version</p>
                     </div>
                   </div>
-                  <div className="px-4 py-1.5 rounded-full bg-[#22c55e]/20 border border-[#22c55e]/40 text-[#22c55e] text-sm font-semibold">
+                  <div className="px-4 py-1.5 rounded-full bg-[#35fe34]/20 border border-[#35fe34]/40 text-[#35fe34] text-sm font-semibold">
                     Free
                   </div>
                 </div>
@@ -140,13 +140,13 @@ export function Download() {
                 {/* Copy Link */}
                 <motion.button
                   onClick={handleCopyLink}
-                  className="w-full mt-3 flex items-center justify-center gap-2 py-3.5 px-4 border border-white/10 hover:border-[#22c55e]/50 hover:bg-[#22c55e]/5 transition-all duration-300 text-sm text-white/60"
+                  className="w-full mt-3 flex items-center justify-center gap-2 py-3.5 px-4 border border-white/10 hover:border-[#35fe34]/50 hover:bg-[#35fe34]/5 transition-all duration-300 text-sm text-white/60"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
                   {copied ? (
                     <>
-                      <CheckCircle2 className="w-4 h-4 text-[#22c55e]" />
+                      <CheckCircle2 className="w-4 h-4 text-[#35fe34]" />
                       Link copied!
                     </>
                   ) : (
@@ -183,8 +183,8 @@ export function Download() {
             {/* Requirements */}
             <div>
               <h3 className="text-xl font-semibold mb-5 flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-[#22c55e]/10 flex items-center justify-center">
-                  <Check className="w-4 h-4 text-[#22c55e]" />
+                <div className="w-8 h-8 rounded-lg bg-[#35fe34]/10 flex items-center justify-center">
+                  <Check className="w-4 h-4 text-[#35fe34]" />
                 </div>
                 System Requirements
               </h3>
@@ -198,8 +198,8 @@ export function Download() {
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 + index * 0.1 }}
                   >
-                    <div className="w-5 h-5 rounded-full bg-[#22c55e]/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-[#22c55e]" />
+                    <div className="w-5 h-5 rounded-full bg-[#35fe34]/20 flex items-center justify-center flex-shrink-0">
+                      <Check className="w-3 h-3 text-[#35fe34]" />
                     </div>
                     <span className="text-white/70">{req}</span>
                   </motion.div>
@@ -214,15 +214,15 @@ export function Download() {
                 {steps.map((step, index) => (
                   <motion.div
                     key={step.step}
-                    className="flex items-start gap-4 p-4 glass-card hover:border-[#22c55e]/30 transition-all duration-300"
+                    className="flex items-start gap-4 p-4 glass-card hover:border-[#35fe34]/30 transition-all duration-300"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 + index * 0.1 }}
                     whileHover={{ x: 5 }}
                   >
-                    <div className="w-10 h-10 rounded-lg bg-[#22c55e]/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-[#22c55e] font-bold">{step.step}</span>
+                    <div className="w-10 h-10 rounded-lg bg-[#35fe34]/10 flex items-center justify-center flex-shrink-0">
+                      <span className="text-[#35fe34] font-bold">{step.step}</span>
                     </div>
                     <div>
                       <h4 className="font-medium mb-1">{step.title}</h4>
@@ -234,7 +234,7 @@ export function Download() {
             </div>
 
             {/* Support */}
-            <div className="p-5 glass-card border-[#22c55e]/30">
+            <div className="p-5 glass-card border-[#35fe34]/30">
               <p className="text-sm text-white/50 mb-3">Need help?</p>
               <div className="flex gap-3">
                 <motion.a

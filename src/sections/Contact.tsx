@@ -137,7 +137,7 @@ export function Contact() {
     <section id="contact" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#22c55e]/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="section-container relative z-10">
@@ -149,9 +149,9 @@ export function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 mb-6">
-            <Mail className="w-4 h-4 text-[#22c55e]" />
-            <span className="text-sm font-medium text-[#22c55e]">Get in Touch</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
+            <Mail className="w-4 h-4 text-[#35fe34]" />
+            <span className="text-sm font-medium text-[#35fe34]">Get in Touch</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Contact <span className="gradient-text">Support</span>
@@ -179,7 +179,7 @@ export function Contact() {
               transition={{ delay: 0.3 + index * 0.1 }}
               whileHover={{ scale: 1.05 }}
             >
-              <stat.icon className="w-6 h-6 text-[#22c55e] mx-auto mb-2" />
+              <stat.icon className="w-6 h-6 text-[#35fe34] mx-auto mb-2" />
               <div className="text-2xl font-bold">{stat.value}</div>
               <div className="text-sm text-white/50">{stat.label}</div>
             </motion.div>
@@ -233,7 +233,7 @@ export function Contact() {
             {/* Info Box */}
             <div className="p-6 rounded-2xl glass-card">
               <h4 className="font-semibold mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-[#22c55e]" />
+                <Clock className="w-5 h-5 text-[#35fe34]" />
                 Support Hours
               </h4>
               <div className="space-y-2 text-sm text-white/60">
@@ -269,8 +269,8 @@ export function Contact() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="w-20 h-20 rounded-full bg-[#22c55e]/20 flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle2 className="w-10 h-10 text-[#22c55e]" />
+                  <div className="w-20 h-20 rounded-full bg-[#35fe34]/20 flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle2 className="w-10 h-10 text-[#35fe34]" />
                   </div>
                   <h4 className="text-2xl font-semibold mb-2">Message Sent!</h4>
                   <p className="text-white/60">

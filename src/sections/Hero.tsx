@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { Download, ArrowRight, Cpu, Shield, TrendingUp, Activity, Zap } from 'lucide-react';
 
 const stats = [
-  { icon: TrendingUp, value: '+40%', label: 'FPS Boost', color: '#22c55e' },
-  { icon: Activity, value: '-30%', label: 'Latency', color: '#4ade80' },
-  { icon: Shield, value: '100%', label: 'Safe', color: '#22c55e' },
+  { icon: TrendingUp, value: '+40%', label: 'FPS Boost', color: '#35fe34' },
+  { icon: Activity, value: '-30%', label: 'Latency', color: '#5fff5e' },
+  { icon: Shield, value: '100%', label: 'Safe', color: '#35fe34' },
 ];
 
 export function Hero() {
@@ -47,8 +47,8 @@ export function Hero() {
     <section id="hero" className="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 right-0 w-[800px] h-[800px] bg-[#22c55e]/5 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#22c55e]/3 rounded-full blur-[100px]" />
+        <div className="absolute top-1/3 right-0 w-[800px] h-[800px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#35fe34]/3 rounded-full blur-[100px]" />
       </div>
 
       <div className="section-container relative z-10">
@@ -67,8 +67,8 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <Zap className="w-4 h-4 text-[#22c55e]" />
-              <span className="text-sm font-medium text-[#22c55e]">
+              <Zap className="w-4 h-4 text-[#35fe34]" />
+              <span className="text-sm font-medium text-[#35fe34]">
                 ZXWY V2 is Now Available
               </span>
             </motion.div>
@@ -89,7 +89,7 @@ export function Hero() {
                     className="w-20 h-20 md:w-24 md:h-24 object-contain"
                     loading="eager"
                     style={{ 
-                      filter: 'drop-shadow(0 0 16px rgba(34,197,94,0.7)) drop-shadow(0 0 40px rgba(34,197,94,0.3))',
+                      filter: 'drop-shadow(0 0 16px rgba(53,254,52,0.7)) drop-shadow(0 0 40px rgba(53,254,52,0.3))',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -178,7 +178,7 @@ export function Hero() {
           >
             <div className="relative">
               {/* Glow */}
-              <div className="absolute -inset-4 bg-[#22c55e]/20 rounded-3xl blur-2xl opacity-50 animate-pulse" />
+              <div className="absolute -inset-4 bg-[#35fe34]/20 rounded-3xl blur-2xl opacity-50 animate-pulse" />
               
               {/* FIX 2: Removed overflow-hidden from glass-card — add it only to the inner content div instead */}
               <div className="relative glass-card">
@@ -198,10 +198,10 @@ export function Hero() {
                 <div className="p-6 space-y-5 overflow-hidden rounded-b-[inherit]">
                   {/* Metrics */}
                   {[
-                    { label: 'FPS Stability', value: '98.7%', color: '#22c55e', width: 98.7 },
-                    { label: 'System Clarity', value: '94.2%', color: '#4ade80', width: 94.2 },
-                    { label: 'Input Latency', value: '2.1ms', color: '#22c55e', width: 85 },
-                    { label: 'Risk Level', value: 'Minimal', color: '#22c55e', width: 15, isRisk: true },
+                    { label: 'FPS Stability', value: '98.7%', color: '#35fe34', width: 98.7 },
+                    { label: 'System Clarity', value: '94.2%', color: '#5fff5e', width: 94.2 },
+                    { label: 'Input Latency', value: '2.1ms', color: '#35fe34', width: 85 },
+                    { label: 'Risk Level', value: 'Minimal', color: '#35fe34', width: 15, isRisk: true },
                   ].map((metric, index) => (
                     <motion.div 
                       key={metric.label}
@@ -213,9 +213,9 @@ export function Hero() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           {metric.isRisk ? (
-                            <Shield className="w-4 h-4 text-[#22c55e]" />
+                            <Shield className="w-4 h-4 text-[#35fe34]" />
                           ) : (
-                            <Cpu className="w-4 h-4 text-[#22c55e]" />
+                            <Cpu className="w-4 h-4 text-[#35fe34]" />
                           )}
                           <span className="text-sm font-medium text-white/70">{metric.label}</span>
                         </div>
@@ -226,7 +226,7 @@ export function Hero() {
                           className="h-full rounded-full"
                           style={{ 
                             background: metric.isRisk 
-                              ? '#22c55e' 
+                              ? '#35fe34' 
                               : `linear-gradient(90deg, ${metric.color}, ${metric.color}88)` 
                           }}
                           initial={{ width: 0 }}
@@ -240,7 +240,7 @@ export function Hero() {
                   {/* Info Text */}
                   <div className="pt-4 border-t border-white/10">
                     <p className="text-xs text-white/50 leading-relaxed">
-                      <span className="text-[#22c55e] font-medium">ZXWY V2</span> uses 
+                      <span className="text-[#35fe34] font-medium">ZXWY V2</span> uses 
                       advanced optimization techniques to enhance gaming performance 
                       without compromising system stability.
                     </p>
@@ -264,7 +264,7 @@ export function Hero() {
           animate={{ y: [0, 5, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-[#22c55e]" />
+          <div className="w-1.5 h-1.5 rounded-full bg-[#35fe34]" />
         </motion.div>
       </motion.div>
     </section>

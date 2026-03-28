@@ -35,7 +35,7 @@ export function Footer() {
     <footer className="relative pt-20 pb-8 border-t border-white/10">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#22c55e]/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#35fe34]/5 rounded-full blur-[100px]" />
       </div>
 
       <div className="section-container relative z-10">
@@ -57,14 +57,14 @@ export function Footer() {
                 height={40}
                 style={{
                   imageRendering: 'crisp-edges',
-                  filter: 'drop-shadow(0 0 0px rgba(34,197,94,0))',
+                  filter: 'drop-shadow(0 0 0px rgba(53,254,52,0))',
                   transition: 'filter 0.3s ease',
                 }}
-                onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(34,197,94,0.6))')}
-                onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 0px rgba(34,197,94,0))')}
+                onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(53,254,52,0.6))')}
+                onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 0px rgba(53,254,52,0))')}
               />
               <div>
-                <span className="text-xl font-bold text-display tracking-widest">ZXWY <span className="text-[#22c55e]">V2</span></span>
+                <span className="text-xl font-bold text-display tracking-widest">ZXWY <span className="text-[#35fe34]">V2</span></span>
               </div>
             </motion.a>
             <p className="text-white/50 text-sm mb-6 max-w-xs">
@@ -77,15 +77,15 @@ export function Footer() {
               {[
                 { icon: MessageCircle, href: 'https://t.me/ZXWYTWEAKING', label: 'Telegram', color: '#0088cc' },
                 { icon: Gamepad2, href: 'https://discord.gg/UQmBUXct', label: 'Discord', color: '#5865F2' },
-                { icon: Github, href: '#', label: 'GitHub', color: '#22c55e' },
-                { icon: Twitter, href: '#', label: 'Twitter', color: '#22c55e' },
+                { icon: Github, href: '#', label: 'GitHub', color: '#35fe34' },
+                { icon: Twitter, href: '#', label: 'Twitter', color: '#35fe34' },
               ].map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
                   target={social.href.startsWith('http') ? '_blank' : undefined}
                   rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white/50 hover:text-[#22c55e] hover:bg-[#22c55e]/10 transition-all duration-300"
+                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white/50 hover:text-[#35fe34] hover:bg-[#35fe34]/10 transition-all duration-300"
                   aria-label={social.label}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -108,7 +108,7 @@ export function Footer() {
                       e.preventDefault(); 
                       scrollToSection(link.href); 
                     }}
-                    className="text-sm text-white/50 hover:text-[#22c55e] transition-colors duration-300"
+                    className="text-sm text-white/50 hover:text-[#35fe34] transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -133,7 +133,7 @@ export function Footer() {
                     }}
                     target={link.href.startsWith('http') ? '_blank' : undefined}
                     rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="text-sm text-white/50 hover:text-[#22c55e] transition-colors duration-300"
+                    className="text-sm text-white/50 hover:text-[#35fe34] transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -150,7 +150,7 @@ export function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-white/50 hover:text-[#22c55e] transition-colors duration-300"
+                    className="text-sm text-white/50 hover:text-[#35fe34] transition-colors duration-300"
                   >
                     {link.label}
                   </a>

@@ -8,42 +8,42 @@ const features = [
     title: 'Performance Boost',
     description: 'Optimize Windows services, registry, and power settings for maximum gaming performance.',
     stat: '+40% FPS',
-    gradient: 'from-[#22c55e] to-[#4ade80]',
+    gradient: 'from-[#35fe34] to-[#5fff5e]',
   },
   {
     icon: Shield,
     title: 'Safe & Reversible',
     description: 'All tweaks include automatic restore points. One-click rollback anytime.',
     stat: '100% Safe',
-    gradient: 'from-[#4ade80] to-[#22c55e]',
+    gradient: 'from-[#5fff5e] to-[#35fe34]',
   },
   {
     icon: Cpu,
     title: 'System Debloat',
     description: 'Remove unnecessary Windows bloatware and background processes.',
     stat: '-15%',
-    gradient: 'from-[#22c55e] to-[#16a34a]',
+    gradient: 'from-[#35fe34] to-[#20c41f]',
   },
   {
     icon: Gauge,
     title: 'Latency Reduction',
     description: 'Minimize input lag with advanced timer and interrupt optimizations.',
     stat: '-30% Latency',
-    gradient: 'from-[#4ade80] to-[#22c55e]',
+    gradient: 'from-[#5fff5e] to-[#35fe34]',
   },
   {
     icon: RefreshCw,
     title: 'Auto Updates',
     description: 'Get the latest optimizations automatically with our update system.',
     stat: 'Always Current',
-    gradient: 'from-[#22c55e] to-[#4ade80]',
+    gradient: 'from-[#35fe34] to-[#5fff5e]',
   },
   {
     icon: Gamepad2,
     title: 'Gaming Focused',
     description: 'Specifically designed for gamers who demand the best performance.',
     stat: 'Proven Results',
-    gradient: 'from-[#4ade80] to-[#22c55e]',
+    gradient: 'from-[#5fff5e] to-[#35fe34]',
   },
 ];
 
@@ -104,7 +104,7 @@ export function Features() {
     <section id="features" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-[#22c55e]/5 rounded-full blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="section-container relative z-10">
@@ -116,9 +116,9 @@ export function Features() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 mb-6">
-            <Zap className="w-4 h-4 text-[#22c55e]" />
-            <span className="text-sm font-medium text-[#22c55e]">Powerful Features</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
+            <Zap className="w-4 h-4 text-[#35fe34]" />
+            <span className="text-sm font-medium text-[#35fe34]">Powerful Features</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Everything You Need for
@@ -155,7 +155,7 @@ export function Features() {
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-[#22c55e] transition-colors duration-300 text-display tracking-wide">
+              <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-[#35fe34] transition-colors duration-300 text-display tracking-wide">
                 {feature.title}
               </h3>
               <p className="text-white/50 mb-4 text-sm leading-relaxed">
@@ -183,14 +183,14 @@ export function Features() {
         >
           <div className="relative overflow-hidden rounded-3xl glass-card p-8 md:p-12">
             {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#22c55e]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#35fe34]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             
             <div className="relative grid lg:grid-cols-2 gap-12 items-center">
               {/* Left Content */}
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22c55e]/20 border border-[#22c55e]/40 mb-6">
-                  <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
-                  <span className="text-sm font-medium text-[#22c55e]">What's New in V2</span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/20 border border-[#35fe34]/40 mb-6">
+                  <span className="w-2 h-2 rounded-full bg-[#35fe34] animate-pulse" />
+                  <span className="text-sm font-medium text-[#35fe34]">What's New in V2</span>
                 </div>
                 <h3 className="text-3xl md:text-4xl font-bold mb-4">
                   Major Upgrade from
@@ -212,7 +212,7 @@ export function Features() {
                       className="px-5 py-3 rounded-xl glass-card"
                       whileHover={{ scale: 1.05 }}
                     >
-                      <div className="text-2xl font-bold text-[#22c55e]">{stat.value}</div>
+                      <div className="text-2xl font-bold text-[#35fe34]">{stat.value}</div>
                       <div className="text-sm text-white/50">{stat.label}</div>
                     </motion.div>
                   ))}
@@ -224,15 +224,15 @@ export function Features() {
                 {v2Improvements.map((improvement) => (
                   <motion.div
                     key={improvement.title}
-                    className="flex items-start gap-4 p-5 rounded-2xl glass-card hover:border-[#22c55e]/30 transition-all duration-300"
+                    className="flex items-start gap-4 p-5 rounded-2xl glass-card hover:border-[#35fe34]/30 transition-all duration-300"
                     initial={{ opacity: 0, x: 30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.15, duration: 0.5 }}
                     whileHover={{ x: 5 }}
                   >
-                    <div className="w-12 h-12 rounded-xl bg-[#22c55e]/10 flex items-center justify-center flex-shrink-0">
-                      <improvement.icon className="w-6 h-6 text-[#22c55e]" />
+                    <div className="w-12 h-12 rounded-xl bg-[#35fe34]/10 flex items-center justify-center flex-shrink-0">
+                      <improvement.icon className="w-6 h-6 text-[#35fe34]" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-lg mb-1">{improvement.title}</h4>

@@ -60,9 +60,9 @@ export function Warning() {
 
             {/* Safety Badge */}
             <div className="flex-shrink-0">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#22c55e]/10 border border-[#22c55e]/30">
-                <Shield className="w-5 h-5 text-[#22c55e]" />
-                <span className="text-sm font-medium text-[#22c55e]">Auto Backup Enabled</span>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#35fe34]/10 border border-[#35fe34]/30">
+                <Shield className="w-5 h-5 text-[#35fe34]" />
+                <span className="text-sm font-medium text-[#35fe34]">Auto Backup Enabled</span>
               </div>
             </div>
           </div>

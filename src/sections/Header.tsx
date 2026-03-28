@@ -83,16 +83,16 @@ export function Header() {
                   className="relative w-10 h-10 object-contain"
                   style={{ 
                     imageRendering: 'crisp-edges',
-                    filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0)) ',
+                    filter: 'drop-shadow(0 0 8px rgba(53,254,52,0)) ',
                     transition: 'filter 0.3s ease',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 10px rgba(34, 197, 94, 0.7))')}
-                  onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(34, 197, 94, 0))')}
+                  onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 10px rgba(53,254,52,0.7))')}
+                  onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(53,254,52,0))')}
                 />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold tracking-widest text-display">
-                  ZXWY <span className="text-[#22c55e]">V2</span>
+                  ZXWY <span className="text-[#35fe34]">V2</span>
                 </span>
                 <span className="text-[9px] text-white/40 -mt-0.5 tracking-[0.2em] uppercase">
                   PC Optimization
@@ -110,7 +110,7 @@ export function Header() {
                   className={`
                     relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300
                     ${activeSection === link.href.replace('#', '')
-                      ? 'text-[#22c55e]'
+                      ? 'text-[#35fe34]'
                       : 'text-white/60 hover:text-white'
                     }
                   `}
@@ -124,7 +124,7 @@ export function Header() {
                   {activeSection === link.href.replace('#', '') && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute inset-0 bg-[#22c55e]/10 rounded-lg -z-10"
+                      className="absolute inset-0 bg-[#35fe34]/10 rounded-lg -z-10"
                       transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                     />
                   )}
@@ -140,7 +140,7 @@ export function Header() {
                   href="https://t.me/ZXWYTWEAKING"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 text-white/50 hover:text-[#22c55e] hover:bg-white/5 transition-all duration-300"
+                  className="p-2.5 text-white/50 hover:text-[#35fe34] hover:bg-white/5 transition-all duration-300"
                   aria-label="Telegram"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -151,7 +151,7 @@ export function Header() {
                   href="https://discord.gg/UQmBUXct"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 text-white/50 hover:text-[#22c55e] hover:bg-white/5 transition-all duration-300"
+                  className="p-2.5 text-white/50 hover:text-[#35fe34] hover:bg-white/5 transition-all duration-300"
                   aria-label="Discord"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -225,7 +225,7 @@ export function Header() {
                     className={`
                       px-4 py-3 text-lg font-medium rounded-xl transition-all duration-300
                       ${activeSection === link.href.replace('#', '')
-                        ? 'text-[#22c55e] bg-[#22c55e]/10'
+                        ? 'text-[#35fe34] bg-[#35fe34]/10'
                         : 'text-white/70 hover:text-white hover:bg-white/5'
                       }
                     `}

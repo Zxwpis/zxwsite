@@ -61,7 +61,7 @@ export function FAQ() {
     <section id="faq" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#22c55e]/5 rounded-full blur-[150px]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="section-container relative z-10 max-w-4xl mx-auto">
@@ -73,9 +73,9 @@ export function FAQ() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 mb-6">
-            <HelpCircle className="w-4 h-4 text-[#22c55e]" />
-            <span className="text-sm font-medium text-[#22c55e]">FAQ</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
+            <HelpCircle className="w-4 h-4 text-[#35fe34]" />
+            <span className="text-sm font-medium text-[#35fe34]">FAQ</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Frequently Asked <span className="gradient-text">Questions</span>
@@ -100,7 +100,7 @@ export function FAQ() {
                 className={`
                   rounded-2xl border overflow-hidden transition-all duration-300
                   ${openIndex === index 
-                    ? 'bg-[#22c55e]/5 border-[#22c55e]/30' 
+                    ? 'bg-[#35fe34]/5 border-[#35fe34]/30' 
                     : 'glass-card'
                   }
                 `}
@@ -112,9 +112,9 @@ export function FAQ() {
                   <div className="flex items-center gap-4 pr-4">
                     <div className={`
                       w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
-                      ${openIndex === index ? 'bg-[#22c55e]/20' : 'bg-white/5'}
+                      ${openIndex === index ? 'bg-[#35fe34]/20' : 'bg-white/5'}
                     `}>
-                      <span className="text-[#22c55e] font-bold">{index + 1}</span>
+                      <span className="text-[#35fe34] font-bold">{index + 1}</span>
                     </div>
                     <h3 className="font-semibold text-lg">{item.question}</h3>
                   </div>
@@ -157,13 +157,13 @@ export function FAQ() {
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <div className="relative overflow-hidden rounded-2xl glass-card border-[#22c55e]/30 p-8">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#22c55e]/10 rounded-full blur-[80px]" />
+          <div className="relative overflow-hidden rounded-2xl glass-card border-[#35fe34]/30 p-8">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#35fe34]/10 rounded-full blur-[80px]" />
             
             <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-xl bg-[#22c55e]/10 flex items-center justify-center">
-                  <MessageCircle className="w-7 h-7 text-[#22c55e]" />
+                <div className="w-14 h-14 rounded-xl bg-[#35fe34]/10 flex items-center justify-center">
+                  <MessageCircle className="w-7 h-7 text-[#35fe34]" />
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-1">Still have questions?</h3>
