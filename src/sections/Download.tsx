@@ -90,8 +90,11 @@ export function Download() {
                     <img 
                       src="/logo.png" 
                       alt="ZXWY V2 Logo" 
-                      className="w-14 h-14 rounded-xl object-contain"
-                      style={{ imageRendering: 'crisp-edges' }}
+                      className="w-14 h-14 object-contain"
+                      style={{ 
+                        imageRendering: 'crisp-edges',
+                        filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.4))',
+                      }}
                     />
                     <div>
                       <h3 className="text-2xl font-bold">ZXWY V2</h3>
