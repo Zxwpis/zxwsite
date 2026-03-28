@@ -45,7 +45,7 @@ function LoadingScreen() {
 
       {/* Radial glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[600px] bg-[#22c55e]/5 rounded-full blur-[120px]" />
+        <div className="w-[600px] h-[600px] bg-[#35fe34]/5 rounded-full blur-[120px]" />
       </div>
 
       <motion.div
@@ -58,19 +58,19 @@ function LoadingScreen() {
         <div className="relative">
           {/* Outer spinning ring */}
           <motion.div
-            className="absolute inset-[-20px] rounded-full border border-dashed border-[#22c55e]/20"
+            className="absolute inset-[-20px] rounded-full border border-dashed border-[#35fe34]/20"
             animate={{ rotate: 360 }}
             transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
           />
           {/* Inner spinning ring */}
           <motion.div
-            className="absolute inset-[-10px] rounded-full border border-[#22c55e]/10"
+            className="absolute inset-[-10px] rounded-full border border-[#35fe34]/10"
             animate={{ rotate: -360 }}
             transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
           />
           {/* Glow pulse */}
           <motion.div
-            className="absolute inset-0 bg-[#22c55e]/20 rounded-full blur-2xl"
+            className="absolute inset-0 bg-[#35fe34]/20 rounded-full blur-2xl"
             animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
@@ -79,14 +79,14 @@ function LoadingScreen() {
             alt="ZXWY V2"
             className="relative w-20 h-20 object-contain"
             loading="eager"
-            style={{ filter: 'drop-shadow(0 0 16px rgba(34,197,94,0.6))' }}
+            style={{ filter: 'drop-shadow(0 0 16px rgba(53,254,52,0.6))' }}
           />
         </div>
 
         {/* Brand name */}
         <div className="text-center">
           <h1 className="text-display text-3xl font-bold tracking-widest text-white mb-1">
-            ZXWY <span className="text-[#22c55e]">V2</span>
+            ZXWY <span className="text-[#35fe34]">V2</span>
           </h1>
           <p className="text-xs tracking-[0.3em] text-white/30 uppercase">PC Optimization</p>
         </div>
@@ -97,8 +97,8 @@ function LoadingScreen() {
             <motion.div
               className="h-full rounded-full"
               style={{
-                background: 'linear-gradient(90deg, #22c55e, #4ade80)',
-                boxShadow: '0 0 8px #22c55e',
+                background: 'linear-gradient(90deg, #35fe34, #5fff5e)',
+                boxShadow: '0 0 8px #35fe34',
               }}
               animate={{ width: `${Math.min(progress, 100)}%` }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
@@ -114,7 +114,7 @@ function LoadingScreen() {
             >
               {phases[phase]}
             </motion.p>
-            <span className="text-xs font-mono text-[#22c55e]/60">
+            <span className="text-xs font-mono text-[#35fe34]/60">
               {Math.min(Math.round(progress), 100)}%
             </span>
           </div>
@@ -151,8 +151,8 @@ function App() {
           {/* Fixed background */}
           <div className="fixed inset-0 pointer-events-none z-0">
             <div className="absolute inset-0 bg-grid opacity-40" />
-            <div className="absolute top-0 left-1/4 w-[900px] h-[700px] bg-[#22c55e]/4 rounded-full blur-[160px]" />
-            <div className="absolute bottom-0 right-1/4 w-[700px] h-[500px] bg-[#22c55e]/3 rounded-full blur-[140px]" />
+            <div className="absolute top-0 left-1/4 w-[900px] h-[700px] bg-[#35fe34]/4 rounded-full blur-[160px]" />
+            <div className="absolute bottom-0 right-1/4 w-[700px] h-[500px] bg-[#35fe34]/3 rounded-full blur-[140px]" />
             <div className="absolute inset-0 bg-noise" />
           </div>
 
@@ -193,7 +193,7 @@ function App() {
             toastOptions={{
               style: {
                 background: '#141414',
-                border: '1px solid rgba(34,197,94,0.25)',
+                border: '1px solid rgba(53,254,52,0.25)',
                 color: '#fff',
                 fontFamily: 'var(--font-body)',
                 borderRadius: '12px',
