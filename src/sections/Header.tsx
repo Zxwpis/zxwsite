@@ -76,13 +76,18 @@ export function Header() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#22c55e]/30 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative flex-shrink-0 p-1">
                 <img 
                   src="/logo.png" 
                   alt="ZXWY V2 Logo" 
-                  className="relative w-10 h-10 rounded-xl object-contain"
-                  style={{ imageRendering: 'crisp-edges' }}
+                  className="relative w-10 h-10 object-contain"
+                  style={{ 
+                    imageRendering: 'crisp-edges',
+                    filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0)) ',
+                    transition: 'filter 0.3s ease',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 10px rgba(34, 197, 94, 0.7))')}
+                  onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(34, 197, 94, 0))')}
                 />
               </div>
               <div className="flex flex-col">
