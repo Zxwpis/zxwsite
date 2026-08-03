@@ -78,13 +78,22 @@ function App() {
         <main>
           <Hero />
           <Suspense fallback={null}>
-            <Showcase />
+            {/* Showcase, Download, Changelog, FAQ and Contact are hidden on phones to keep the
+                mobile page short — only Pricing and Features (the buy-decision sections) stay
+                between Hero and Footer there. Tablet and up (md+) still get the full page. */}
+            <div className="hidden md:block">
+              <Showcase />
+            </div>
             <Pricing />
-            <Download />
+            <div className="hidden md:block">
+              <Download />
+            </div>
             <Features />
-            <Changelog />
-            <FAQ />
-            <Contact />
+            <div className="hidden md:block">
+              <Changelog />
+              <FAQ />
+              <Contact />
+            </div>
           </Suspense>
         </main>
         <Suspense fallback={null}>

@@ -97,35 +97,36 @@ export function Showcase() {
           <div className="overflow-hidden rounded-[16px] border border-[#16191a]/10 bg-[#0c0f0d] shadow-soft">
             {/* Title bar — mirrors the real app's window chrome */}
             <div className="flex h-9 select-none items-center border-b border-white/8 bg-[#0c0f0d]/95">
-              <div className="flex items-center gap-2 px-3">
-                <div className="h-2 w-2 rounded-full bg-[#36FE35] shadow-[0_0_8px_rgba(54,254,53,0.8)]" />
-                <span className="text-[11px] font-bold tracking-[0.18em] text-white">
+              <div className="flex min-w-0 items-center gap-2 px-3">
+                <div className="h-2 w-2 shrink-0 rounded-full bg-[#36FE35] shadow-[0_0_8px_rgba(54,254,53,0.8)]" />
+                <span className="truncate text-[11px] font-bold tracking-[0.18em] text-white">
                   ZXWY <span className="text-[#36FE35]">TWEAKS</span>
                 </span>
               </div>
-              <div className="ml-3 flex items-center gap-1.5 text-[10px]">
+              <div className="ml-3 hidden items-center gap-1.5 text-[10px] sm:flex">
                 <Wifi className="h-3 w-3 text-[#36FE35]" />
                 <span className="uppercase tracking-wider text-white/50">
                   {TIER_LABELS[tier]}
                 </span>
               </div>
               <div className="flex-1" />
-              <div className="flex">
-                <span className="inline-flex h-9 w-11 items-center justify-center text-white/25">
+              <div className="flex shrink-0">
+                <span className="inline-flex h-9 w-8 items-center justify-center text-white/25 sm:w-11">
                   <Minus className="h-3.5 w-3.5" />
                 </span>
-                <span className="inline-flex h-9 w-11 items-center justify-center text-white/25">
+                <span className="inline-flex h-9 w-8 items-center justify-center text-white/25 sm:w-11">
                   <Square className="h-3 w-3" />
                 </span>
-                <span className="inline-flex h-9 w-11 items-center justify-center text-white/25">
+                <span className="inline-flex h-9 w-8 items-center justify-center text-white/25 sm:w-11">
                   <X className="h-3.5 w-3.5" />
                 </span>
               </div>
             </div>
 
-            <div className="flex h-[520px]">
-              {/* Sidebar — mirrors the real app's navigation */}
-              <aside className="flex w-48 shrink-0 flex-col border-r border-white/8 bg-white/[0.015]">
+            <div className="flex h-[440px] sm:h-[480px] md:h-[520px]">
+              {/* Sidebar — mirrors the real app's navigation. Icon-only + narrower on phones so it
+                  doesn't eat most of the available width; labels return from `sm:` up. */}
+              <aside className="flex w-14 shrink-0 flex-col border-r border-white/8 bg-white/[0.015] sm:w-48">
                 <nav className="flex flex-1 flex-col gap-0.5 p-2">
                   {NAV.map((item) => {
                     const active = page === item.key;
@@ -135,11 +136,11 @@ export function Showcase() {
                           key={item.key}
                           title="Available in the full app"
                           aria-disabled="true"
-                          className="flex h-9 cursor-not-allowed items-center gap-2.5 rounded-md px-3 text-xs font-medium text-white/20"
+                          className="flex h-9 cursor-not-allowed items-center justify-center gap-2.5 rounded-md px-0 text-xs font-medium text-white/20 sm:justify-start sm:px-3"
                         >
-                          <item.icon className="h-4 w-4" />
-                          <span className="flex-1">{item.label}</span>
-                          <Lock className="h-3 w-3" />
+                          <item.icon className="h-4 w-4 shrink-0" />
+                          <span className="hidden flex-1 sm:inline">{item.label}</span>
+                          <Lock className="hidden h-3 w-3 sm:inline" />
                         </span>
                       );
                     }
@@ -147,7 +148,8 @@ export function Showcase() {
                       <button
                         key={item.key}
                         onClick={() => setPage(item.key)}
-                        className={`relative flex h-9 items-center gap-2.5 rounded-md px-3 text-xs font-medium transition-colors ${
+                        title={item.label}
+                        className={`relative flex h-9 items-center justify-center gap-2.5 rounded-md px-0 text-xs font-medium transition-colors sm:justify-start sm:px-3 ${
                           active ? 'bg-[#36FE35]/10 text-[#36FE35]' : 'text-white/50 hover:bg-white/5 hover:text-white/80'
                         }`}
                       >
@@ -157,35 +159,36 @@ export function Showcase() {
                             className="absolute bottom-1.5 left-0 top-1.5 w-0.5 rounded-r-full bg-[#36FE35] shadow-[0_0_8px_rgba(54,254,53,0.6)]"
                           />
                         )}
-                        <item.icon className="h-4 w-4" />
-                        {item.label}
+                        <item.icon className="h-4 w-4 shrink-0" />
+                        <span className="hidden sm:inline">{item.label}</span>
                       </button>
                     );
                   })}
                 </nav>
 
                 {/* Demo tier switch — replaces the real license key panel */}
-                <div className="space-y-2 border-t border-white/8 p-3">
-                  <div className="text-[9px] uppercase tracking-[0.2em] text-white/25">Demo tier</div>
-                  <div className="grid grid-cols-2 gap-1">
+                <div className="space-y-2 border-t border-white/8 p-1.5 sm:p-3">
+                  <div className="hidden text-[9px] uppercase tracking-[0.2em] text-white/25 sm:block">Demo tier</div>
+                  <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
                     {TIERS.map((t) => (
                       <button
                         key={t}
                         onClick={() => setTier(t)}
-                        className={`rounded px-1.5 py-1 text-[10px] font-bold uppercase tracking-wide transition-colors ${
+                        title={TIER_LABELS[t]}
+                        className={`rounded px-1 py-1 text-[9px] font-bold uppercase tracking-wide transition-colors sm:px-1.5 sm:text-[10px] ${
                           tier === t ? 'bg-[#36FE35]/15 text-[#36FE35]' : 'bg-white/5 text-white/35 hover:text-white/60'
                         }`}
                       >
-                        {TIER_LABELS[t]}
+                        <span className="block truncate">{TIER_LABELS[t]}</span>
                       </button>
                     ))}
                   </div>
-                  <div className="text-center font-mono text-[9px] text-white/20">v3.0.0 · demo</div>
+                  <div className="hidden text-center font-mono text-[9px] text-white/20 sm:block">v3.0.0 · demo</div>
                 </div>
               </aside>
 
               {/* Main content */}
-              <div className="relative flex-1 overflow-y-auto p-6">
+              <div className="relative flex-1 overflow-y-auto p-4 sm:p-6">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={page}

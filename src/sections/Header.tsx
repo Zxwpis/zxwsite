@@ -13,6 +13,15 @@ const reducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Matches the `md` breakpoint used in App.tsx to hide Showcase/Download/Changelog/FAQ/Contact
+// on phones — so the header can route "Download" taps to Pricing (the visible buy section)
+// there instead of a hidden anchor.
+const isMobileViewport = () => typeof window !== 'undefined' && window.innerWidth < 768;
+
+// Sections hidden on phones (kept in sync with App.tsx) — filtered out of the mobile drawer
+// so it never lists a link to a section that isn't rendered there.
+const MOBILE_HIDDEN_HREFS = ['#changelog', '#faq', '#contact'];
+
 // Kept in the same order the sections actually appear on the page
 // (Hero → Pricing → Download → Features → Changelog → FAQ → Contact),
 // so the nav reads top-to-bottom the way the site scrolls.
@@ -48,7 +57,10 @@ export function Header() {
       const sections = navLinks.map((link) => link.href.replace('#', ''));
       for (const section of [...sections].reverse()) {
         const element = document.getElementById(section);
-        if (element && element.getBoundingClientRect().top <= 160) {
+        // `offsetParent === null` also catches sections hidden on phones via `hidden md:block`
+        // (Changelog/FAQ/Contact) — skip them so a display:none element (top always 0) can't
+        // hijack the active-section indicator.
+        if (element && element.offsetParent !== null && element.getBoundingClientRect().top <= 160) {
           setActiveSection(section);
           break;
         }
@@ -87,6 +99,12 @@ export function Header() {
     setIsMobileMenuOpen(false);
   };
 
+  // The Download section is hidden on phones, so route the quick "Download" pill to
+  // Pricing there instead — that's the buy-decision section that stays visible.
+  const scrollToDownload = () => scrollToSection(isMobileViewport() ? '#pricing' : '#download');
+
+  const mobileNavLinks = navLinks.filter((link) => !MOBILE_HIDDEN_HREFS.includes(link.href));
+
   const navPillClass = (href: string) => {
     const isActive = activeSection === href.replace('#', '');
     return `relative z-10 flex h-9 items-center rounded-full px-4 text-[13px] font-semibold transition-colors duration-300 ${
@@ -110,7 +128,14 @@ export function Header() {
                 : 'border-transparent bg-white/45 backdrop-blur-xl'
             }`}
             style={{
-              boxShadow: isScrolled ? '0 18px 50px -30px rgba(22, 25, 26, 0.45)' : 'none',
+              boxShadow: [
+                'inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                'inset 0 0 26px 6px rgba(255, 255, 255, 0.45)',
+                'inset 0 -16px 26px -20px rgba(22, 25, 26, 0.18)',
+                isScrolled ? '0 18px 50px -30px rgba(22, 25, 26, 0.45)' : '',
+              ]
+                .filter(Boolean)
+                .join(', '),
             }}
           >
             {/* Wordmark */}
@@ -163,7 +188,7 @@ export function Header() {
 
               <a
                 href="#download"
-                onClick={(e) => { e.preventDefault(); scrollToSection('#download'); }}
+                onClick={(e) => { e.preventDefault(); scrollToDownload(); }}
                 className="group flex h-9 items-center gap-1.5 rounded-full bg-[#16191a] px-5 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-black"
               >
                 Download
@@ -205,7 +230,7 @@ export function Header() {
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="flex flex-col gap-1.5">
-                {navLinks.map((link) => {
+                {mobileNavLinks.map((link) => {
                   const isActive = activeSection === link.href.replace('#', '');
                   return (
                     <a
@@ -240,7 +265,7 @@ export function Header() {
                 ))}
                 <a
                   href="#download"
-                  onClick={(e) => { e.preventDefault(); scrollToSection('#download'); }}
+                  onClick={(e) => { e.preventDefault(); scrollToDownload(); }}
                   className="ml-auto flex h-10 items-center rounded-full bg-[#16191a] px-5 text-[13px] font-semibold text-white"
                 >
                   Download

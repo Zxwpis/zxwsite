@@ -138,7 +138,7 @@ export function Footer() {
               </button>
               <button
                 onClick={() => scrollToSection('#contact')}
-                className="inline-flex items-center gap-2 rounded-full border border-[#16191A]/25 px-7 py-3.5 text-sm font-semibold text-[#16191A]/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#16191A]/60 hover:text-[#16191A]"
+                className="inner-blur inline-flex items-center gap-2 rounded-full border border-[#16191A]/25 bg-white/10 px-7 py-3.5 text-sm font-semibold text-[#16191A]/80 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[#16191A]/60 hover:bg-white/20 hover:text-[#16191A]"
               >
                 Talk to us
               </button>

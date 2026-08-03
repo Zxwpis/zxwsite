@@ -346,6 +346,19 @@ export default function FaultyTerminal({
         gl.canvas.height,
         gl.canvas.width / gl.canvas.height
       );
+
+      // The grid's x/y cell density ratio must match the container's own aspect ratio,
+      // otherwise each cell isn't square in screen space — on a wide desktop viewport
+      // (aspect ~2, what `gridMul` was tuned against) that goes unnoticed, but on a narrow
+      // portrait phone (aspect ~0.5) the mismatch stretches every cell tall, turning the
+      // fine dot pattern into thick, broken-looking vertical bars. Re-deriving the x
+      // multiplier from the live aspect ratio keeps cells square on any screen while
+      // reproducing the original desktop look (its aspect is already close to `gridMul`'s
+      // hard-coded 2:1 ratio).
+      const aspect = ctn.offsetHeight > 0 ? ctn.offsetWidth / ctn.offsetHeight : 1;
+      const gridMulUniform = program.uniforms.uGridMul.value as Float32Array;
+      gridMulUniform[0] = gridMul[1] * aspect;
+      gridMulUniform[1] = gridMul[1];
     }
 
     const resizeObserver = new ResizeObserver(() => resize());

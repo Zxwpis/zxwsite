@@ -1,60 +1,69 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Shield } from 'lucide-react';
+import { Lock, RefreshCw, ShieldCheck } from 'lucide-react';
 
 interface BotCheckProps {
   onVerify: () => void;
 }
 
-export function BotCheck({ onVerify }: BotCheckProps) {
-  const [isHolding, setIsHolding] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const holdTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const REQUIRED_HOLD_TIME = 1800;
-  const PROGRESS_INTERVAL = 16;
+interface Challenge {
+  a: number;
+  b: number;
+  op: '+' | '-';
+}
 
-  const clearTimers = useCallback(() => {
-    if (holdTimeoutRef.current) {
-      clearTimeout(holdTimeoutRef.current);
-      holdTimeoutRef.current = null;
-    }
-    if (progressIntervalRef.current) {
-      clearInterval(progressIntervalRef.current);
-      progressIntervalRef.current = null;
-    }
+function generateChallenge(): Challenge {
+  const op: Challenge['op'] = Math.random() < 0.5 ? '+' : '-';
+  if (op === '+') {
+    // Two single/double-digit numbers — easy mental math on any device.
+    return { a: Math.floor(Math.random() * 9) + 1, b: Math.floor(Math.random() * 9) + 1, op };
+  }
+  // For subtraction, keep `a >= b` so the result is never negative.
+  const a = Math.floor(Math.random() * 9) + 5;
+  const b = Math.floor(Math.random() * a) + 1;
+  return { a, b, op };
+}
+
+function solve(challenge: Challenge) {
+  return challenge.op === '+' ? challenge.a + challenge.b : challenge.a - challenge.b;
+}
+
+export function BotCheck({ onVerify }: BotCheckProps) {
+  const [challenge, setChallenge] = useState<Challenge>(generateChallenge);
+  const [answer, setAnswer] = useState('');
+  const [error, setError] = useState(false);
+  const [shakeKey, setShakeKey] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const refresh = useCallback(() => {
+    setChallenge(generateChallenge());
+    setAnswer('');
+    setError(false);
   }, []);
 
-  const startHold = useCallback(() => {
-    setIsHolding(true);
-    setProgress(0);
-    
-    let currentProgress = 0;
-    const increment = 100 / (REQUIRED_HOLD_TIME / PROGRESS_INTERVAL);
-    
-    progressIntervalRef.current = setInterval(() => {
-      currentProgress += increment;
-      setProgress(Math.min(currentProgress, 100));
-    }, PROGRESS_INTERVAL);
-    
-    holdTimeoutRef.current = setTimeout(() => {
-      clearTimers();
-      onVerify();
-    }, REQUIRED_HOLD_TIME);
-  }, [onVerify, clearTimers]);
-
-  const endHold = useCallback(() => {
-    setIsHolding(false);
-    setProgress(0);
-    clearTimers();
-  }, [clearTimers]);
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      const trimmed = answer.trim();
+      if (trimmed !== '' && Number(trimmed) === solve(challenge)) {
+        onVerify();
+        return;
+      }
+      setError(true);
+      setShakeKey((k) => k + 1);
+      setChallenge(generateChallenge());
+      setAnswer('');
+      inputRef.current?.focus();
+    },
+    [answer, challenge, onVerify],
+  );
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/98 backdrop-blur-2xl"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/98 backdrop-blur-2xl px-4"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
@@ -65,109 +74,129 @@ export function BotCheck({ onVerify }: BotCheckProps) {
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-        className="relative w-full max-w-md mx-4"
+        className="relative w-full max-w-md"
       >
         {/* Glow Effect */}
         <div className="absolute -inset-1 bg-gradient-to-r from-accent via-accent to-accent rounded-3xl blur-xl opacity-30 animate-pulse" />
-        
+
         {/* Card */}
-        <div className="relative glass-card p-8 md:p-10">
+        <div className="relative glass-card p-6 sm:p-8 md:p-10">
           {/* Logo */}
-          <motion.div 
-            className="flex justify-center mb-8"
+          <motion.div
+            className="flex justify-center mb-6 sm:mb-8"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <div className="relative">
               <div className="absolute inset-0 bg-accent/30 rounded-2xl blur-xl animate-pulse" />
-              <img 
-                src="/logo.png" 
-                alt="ZXWY V3 Logo" 
-                className="relative w-24 h-24 rounded-2xl object-contain"
-                style={{ 
+              <img
+                src="/logo.png"
+                alt="ZXWY V3 Logo"
+                className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-contain"
+                style={{
                   filter: 'drop-shadow(0 0 20px rgba(54,254,53,0.3))',
                 }}
               />
             </div>
           </motion.div>
-          
+
           {/* Title */}
-          <motion.h2 
-            className="text-2xl md:text-3xl font-bold text-center mb-3"
+          <motion.h2
+            className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-3"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
             <span className="gradient-text">Human Verification</span>
           </motion.h2>
-          
+
           {/* Description */}
-          <motion.p 
-            className="text-text-dim text-center mb-8 text-sm md:text-base"
+          <motion.p
+            className="text-text-dim text-center mb-6 sm:mb-8 text-sm md:text-base"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            To access <strong className="text-text">ZXWY V3</strong>, please verify you're human by holding the button below.
+            To access <strong className="text-text">ZXWY V3</strong>, please solve the captcha below to prove
+            you're human.
           </motion.p>
-          
-          {/* Hold Button */}
-          <motion.button
-            className="relative w-full group"
-            onMouseDown={startHold}
-            onMouseUp={endHold}
-            onMouseLeave={endHold}
-            onTouchStart={startHold}
-            onTouchEnd={endHold}
-            onTouchCancel={endHold}
+
+          {/* Captcha */}
+          <motion.form
+            key={shakeKey}
+            onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            animate={
+              error
+                ? { opacity: 1, y: 0, x: [0, -8, 8, -6, 6, 0] }
+                : { opacity: 1, y: 0 }
+            }
+            transition={{ delay: error ? 0 : 0.5, duration: error ? 0.4 : 0.3 }}
+            className="space-y-3"
           >
-            {/* Progress Background */}
-            <div className="absolute inset-0 bg-accent/20 rounded-xl overflow-hidden">
-              <motion.div 
-                className="h-full bg-gradient-to-r from-accent to-accent"
-                style={{ width: `${progress}%` }}
-                transition={{ duration: 0.05 }}
-              />
+            <div className="flex items-center gap-3">
+              <div className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-accent/50 bg-bg/80 backdrop-blur-sm py-3.5 px-4">
+                <Lock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                <span className="font-mono text-lg sm:text-xl font-bold tracking-wide text-text select-none">
+                  {challenge.a} {challenge.op} {challenge.b} =
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={refresh}
+                aria-label="New captcha"
+                className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-xl border border-accent/30 text-accent transition-colors hover:bg-accent/10"
+              >
+                <RefreshCw className="h-4 w-4" />
+              </button>
             </div>
-            
-            {/* Button Content */}
-            <div 
-              className={`
-                relative flex items-center justify-center gap-3 py-4 px-6 rounded-xl
-                border-2 border-accent/50 bg-bg/80 backdrop-blur-sm
-                transition-all duration-200
-                ${isHolding ? 'border-accent' : 'hover:border-accent/80'}
-              `}
+
+            <input
+              ref={inputRef}
+              type="tel"
+              inputMode="numeric"
+              autoComplete="off"
+              value={answer}
+              onChange={(e) => {
+                setAnswer(e.target.value.replace(/[^0-9-]/g, ''));
+                setError(false);
+              }}
+              placeholder="Your answer"
+              aria-label="Captcha answer"
+              aria-invalid={error}
+              className={`w-full rounded-xl border-2 bg-bg/80 backdrop-blur-sm py-3.5 px-4 text-center text-base font-semibold text-text outline-none transition-colors placeholder:text-text-muted focus:border-accent ${
+                error ? 'border-red-500/60' : 'border-accent/50'
+              }`}
+            />
+
+            <button
+              type="submit"
+              className="group relative flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 px-6 font-semibold text-black transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99]"
             >
-              {isHolding ? (
-                <Shield className="w-5 h-5 text-black" />
-              ) : (
-                <Lock className="w-5 h-5 text-accent" />
-              )}
-              <span className={`font-semibold transition-colors ${isHolding ? 'text-black' : 'text-text'}`}>
-                {isHolding ? 'Verifying...' : 'Press & Hold to Verify'}
-              </span>
-            </div>
-          </motion.button>
-          
+              <ShieldCheck className="h-5 w-5" />
+              Verify
+            </button>
+
+            {error && (
+              <p className="text-center text-xs font-medium text-red-500">
+                Not quite — try the new equation below.
+              </p>
+            )}
+          </motion.form>
+
           {/* Hint */}
-          <motion.p 
+          <motion.p
             className="text-xs text-text-muted text-center mt-5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            Hold for 2 seconds • No personal data collected
+            Solve the equation • No personal data collected
           </motion.p>
-          
+
           {/* ZXWY V3 Badge */}
-          <motion.div 
+          <motion.div
             className="flex justify-center mt-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
