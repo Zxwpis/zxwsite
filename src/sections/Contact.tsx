@@ -1,31 +1,43 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MessageCircle, Gamepad2, Send, CheckCircle2, Clock, Users, Loader2 } from 'lucide-react';
-import axios from 'axios';
+import { ArrowUpRight, CheckCircle2, Clock, Loader2, Mail, Send, ShieldCheck } from 'lucide-react';
+import { FaDiscord, FaTelegramPlane } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
 import { toast } from 'sonner';
+import { useSectionReveal } from '../lib/anim';
+import { HeadingFlip } from '../components/HeadingFlip';
+import { DISCORD_INVITE_URL } from '../config/links';
 
-const contactMethods = [
+const contactChannels = [
   {
-    icon: MessageCircle,
-    name: 'Telegram',
-    description: 'Fastest response time',
-    link: 'https://t.me/ZXWYTWEAKING',
-    color: 'bg-[#0088cc]/10 text-[#0088cc] border-[#0088cc]/30',
-    hoverColor: 'hover:bg-[#0088cc]/20',
+    icon: FaDiscord,
+    name: 'Discord',
+    handle: 'Community support',
+    link: DISCORD_INVITE_URL,
+    external: true,
+    tone: 'ink' as const,
   },
   {
-    icon: Gamepad2,
-    name: 'Discord',
-    description: 'Community support',
-    link: 'https://discord.gg/UQmBUXct',
-    color: 'bg-[#5865F2]/10 text-[#5865F2] border-[#5865F2]/30',
-    hoverColor: 'hover:bg-[#5865F2]/20',
+    icon: FaTelegramPlane,
+    name: 'Telegram',
+    handle: 'Fastest response',
+    link: 'https://t.me/ZXWYTWEAKING',
+    external: true,
+    tone: 'lime' as const,
+  },
+  {
+    icon: Mail,
+    name: 'Email',
+    handle: 'Via the form',
+    link: '#contact-form',
+    external: false,
+    tone: 'ink' as const,
   },
 ];
 
 const stats = [
   { icon: Clock, value: '< 24h', label: 'Response Time' },
-  { icon: Users, value: '5k+', label: 'Community Members' },
+  { icon: ShieldCheck, value: '100%', label: 'Real Support' },
 ];
 
 interface FormData {
@@ -40,7 +52,46 @@ interface FormErrors {
   message?: string;
 }
 
+const FIELD_LIMITS = {
+  name: 80,
+  email: 254,
+  message: 2000,
+} as const;
+
+// Strips anything that looks like markup (tags, HTML entities, script/event handlers) so a
+// visitor can't inject HTML/JS through the form — the sanitized value is what gets validated,
+// shown back in the UI and sent to EmailJS.
+function sanitizeInput(value: string): string {
+  return value
+    // drop full tags first, including their content for <script>/<style>
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    // strip any remaining tags (e.g. <img onerror=...>, <a href="javascript:...">)
+    .replace(/<[^>]*>/g, '')
+    // neutralize dangerous URI schemes and inline event handlers left as plain text
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=/gi, '')
+    // collapse the raw special characters HTML parses into markup
+    .replace(/[<>]/g, '')
+    // drop control characters
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, '')
+    .replace(/\s{3,}/g, '  ');
+}
+
+// HTML-escapes a value right before it leaves the app, so even if the EmailJS template ever
+// renders fields as HTML, no markup from user input can execute.
+function escapeForEmail(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export function Contact() {
+  const ref = useSectionReveal();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -52,26 +103,38 @@ export function Contact() {
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const message = formData.message.trim();
 
-    if (!formData.name.trim()) {
+    if (!name) {
       newErrors.name = 'Name is required';
-    } else if (formData.name.length < 2) {
+    } else if (name.length < 2) {
       newErrors.name = 'Name must be at least 2 characters';
+    } else if (name.length > FIELD_LIMITS.name) {
+      newErrors.name = `Name must be under ${FIELD_LIMITS.name} characters`;
+    } else if (!/^[\p{L}\p{M}\d\s'.-]+$/u.test(name)) {
+      newErrors.name = 'Name contains characters that are not allowed';
     }
 
-    if (!formData.email.trim()) {
+    if (!email) {
       newErrors.email = 'Email is required';
+    } else if (email.length > FIELD_LIMITS.email) {
+      newErrors.email = 'Email address is too long';
     } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
+      // RFC-5321-friendly, still deliberately simple/safe (no backtracking blow-ups, no HTML chars).
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+      if (!emailRegex.test(email)) {
         newErrors.email = 'Please enter a valid email address';
       }
     }
 
-    if (!formData.message.trim()) {
+    if (!message) {
       newErrors.message = 'Message is required';
-    } else if (formData.message.length < 10) {
+    } else if (message.length < 10) {
       newErrors.message = 'Message must be at least 10 characters';
+    } else if (message.length > FIELD_LIMITS.message) {
+      newErrors.message = `Message must be under ${FIELD_LIMITS.message} characters`;
     }
 
     setErrors(newErrors);
@@ -89,36 +152,41 @@ export function Contact() {
     setIsSubmitting(true);
 
     try {
-      // For demo/development, use mock endpoint
-      // In production, replace with actual API endpoint
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      
-      const response = await axios.post(`${API_URL}/api/contact`, formData);
+      // Messages are delivered straight to zxwytweaking@gmail.com via EmailJS — no backend needed.
+      // The recipient address is configured inside the EmailJS template itself (see .env.example
+      // for the one-time setup), not passed from the code, so it can't be spoofed by a visitor.
+      const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      if (response.data.success) {
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', message: '' });
-        toast.success('Message sent successfully! We will get back to you soon.');
-        
-        // Reset success message after 5 seconds
-        setTimeout(() => setIsSubmitted(false), 5000);
-      } else {
-        toast.error(response.data.error || 'Failed to send message');
+      if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+        throw new Error('EmailJS environment variables are not configured');
       }
+
+      // Escape one more time right before sending — belt-and-suspenders in case the EmailJS
+      // template ever renders a field as raw HTML instead of plain text.
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          title: 'New contact form message',
+          name: escapeForEmail(formData.name.trim()),
+          email: escapeForEmail(formData.email.trim()),
+          message: escapeForEmail(formData.message.trim()),
+          time: new Date().toLocaleString(),
+        },
+        { publicKey: PUBLIC_KEY },
+      );
+
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      toast.success('Message sent successfully! We will get back to you soon.');
+
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
     } catch (error) {
       console.error('Contact form error:', error);
-      
-      // Fallback: Show success even if server is not running (for demo)
-      // In production, remove this fallback
-      if (axios.isAxiosError(error) && !error.response) {
-        // Server not running - simulate success for demo
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', message: '' });
-        toast.success('Message sent! (Demo mode - server not connected)');
-        setTimeout(() => setIsSubmitted(false), 5000);
-      } else {
-        toast.error('Failed to send message. Please try again later.');
-      }
+      toast.error('Failed to send message. Please try again later or reach out on Discord.');
     } finally {
       setIsSubmitting(false);
     }
@@ -126,246 +194,255 @@ export function Contact() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const limit = FIELD_LIMITS[name as keyof FormData] ?? Infinity;
+    // Sanitize as the user types so markup/script content never even lands in state,
+    // and hard-cap length as an extra guard against oversized/spam payloads.
+    const cleanValue = sanitizeInput(value).slice(0, limit);
+    setFormData((prev) => ({ ...prev, [name]: cleanValue }));
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
+  const fieldClass = (hasError?: string) =>
+    [
+      'w-full rounded-2xl border bg-white/70 px-4 py-3.5 text-[15px] text-[#16191a] outline-none transition-all duration-300',
+      'placeholder:text-[#16191a]/35',
+      'focus:border-[#36FE35] focus:ring-2 focus:ring-[#36FE35]/35',
+      hasError ? 'border-[#16191a]/40' : 'border-[#16191a]/10',
+    ].join(' ');
+
   return (
-    <section id="contact" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
-      </div>
+    <section id="contact" ref={ref} className="section-shell bg-transparent">
+      <div className="section-glow bottom-0 h-[480px] w-[780px] opacity-50" aria-hidden="true" />
 
       <div className="section-container relative z-10">
-        {/* Section Header */}
-        <motion.div 
-          className="text-center max-w-3xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
-            <Mail className="w-4 h-4 text-[#35fe34]" />
-            <span className="text-sm font-medium text-[#35fe34]">Get in Touch</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Contact <span className="gradient-text">Support</span>
-          </h2>
-          <p className="text-lg text-white/60">
-            Need help with ZXWY V2? Our community and support team are here to assist you.
+        <div data-reveal className="section-head">
+          <span className="pill-outline">
+            <Mail className="h-3.5 w-3.5" />
+            Get in touch
+          </span>
+          <HeadingFlip
+            className="section-title"
+            front={[{ text: 'Contact ' }, { text: 'support', lime: true }]}
+            back={[{ text: 'Real humans, ' }, { text: 'real fast', lime: true }]}
+          />
+          <p className="section-lede">
+            Need help with ZXWY V3? Our community and support team are here to assist you.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Stats */}
-        <motion.div 
-          className="grid grid-cols-2 gap-4 max-w-md mx-auto mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          {stats.map((stat, index) => (
-            <motion.div 
+        <div data-reveal className="mb-10 flex flex-wrap items-center justify-center gap-3">
+          {stats.map((stat) => (
+            <div
               key={stat.label}
-              className="text-center p-5 rounded-xl glass-card"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 + index * 0.1 }}
-              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center gap-3 rounded-full border border-[#16191a]/10 bg-white/70 px-4 py-2.5 backdrop-blur-md"
             >
-              <stat.icon className="w-6 h-6 text-[#35fe34] mx-auto mb-2" />
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <div className="text-sm text-white/50">{stat.label}</div>
-            </motion.div>
+              <stat.icon className="h-4 w-4 text-[#16191a]" />
+              <span className="text-sm font-semibold text-[#16191a]">{stat.value}</span>
+              <span className="text-xs font-medium uppercase tracking-[0.16em] text-[#16191a]/45">
+                {stat.label}
+              </span>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Left - Contact Methods */}
-          <motion.div 
-            className="space-y-6"
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
-          >
-            <h3 className="text-2xl font-semibold mb-6">Connect With Us</h3>
-            
-            {/* Contact Cards */}
-            <div className="space-y-4">
-              {contactMethods.map((method, index) => (
-                <motion.a
-                  key={method.name}
-                  href={method.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`
-                    flex items-center gap-4 p-5 rounded-2xl border transition-all duration-300
-                    ${method.color} ${method.hoverColor}
-                  `}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <div className="w-14 h-14 rounded-xl bg-black/20 flex items-center justify-center">
-                    <method.icon className="w-7 h-7" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-lg">{method.name}</h4>
-                    <p className="text-sm opacity-80">{method.description}</p>
-                  </div>
-                  <div className="w-10 h-10 rounded-lg bg-black/20 flex items-center justify-center">
-                    <Send className="w-5 h-5" />
-                  </div>
-                </motion.a>
-              ))}
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:gap-6">
+          {/* Form card */}
+          <div data-reveal className="card-paper hover:translate-y-0" id="contact-form">
+            <div className="mb-8">
+              <h3 className="display-quiet text-2xl text-[#16191a] md:text-[1.75rem]">
+                Send a message
+              </h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-[#16191a]/55">
+                Fill out the form below and we&apos;ll get back to you as soon as possible.
+              </p>
             </div>
 
-            {/* Info Box */}
-            <div className="p-6 rounded-2xl glass-card">
-              <h4 className="font-semibold mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-[#35fe34]" />
-                Support Hours
-              </h4>
-              <div className="space-y-2 text-sm text-white/60">
-                <p>Our community is active 24/7, but official support responses are typically provided during:</p>
-                <div className="flex justify-between py-2 border-b border-white/10">
-                  <span>Monday - Friday</span>
-                  <span className="text-white">9:00 AM - 6:00 PM UTC</span>
+            {isSubmitted ? (
+              <motion.div
+                className="flex flex-col items-center py-14 text-center"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <div className="icon-chip mb-5 bg-[#36FE35] text-[#16191a]">
+                  <CheckCircle2 className="h-6 w-6" />
                 </div>
-                <div className="flex justify-between py-2">
-                  <span>Weekend</span>
-                  <span className="text-white">Community Support Only</span>
+                <h4 className="display-quiet text-2xl text-[#16191a]">Message sent!</h4>
+                <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-[#16191a]/60">
+                  Thank you for reaching out. We&apos;ll respond within 24 hours.
+                </p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                <div className="space-y-2">
+                  <label htmlFor="contact-name" className="block text-sm font-medium text-[#16191a]/70">
+                    Your Name
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    name="name"
+                    placeholder="John Doe"
+                    value={formData.name}
+                    onChange={handleChange}
+                    autoComplete="name"
+                    maxLength={FIELD_LIMITS.name}
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                    className={fieldClass(errors.name)}
+                  />
+                  {errors.name && (
+                    <p id="contact-name-error" className="text-xs font-medium text-[#16191a]/70">
+                      {errors.name}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-[#16191a]/70">
+                    Email Address
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    name="email"
+                    placeholder="john@example.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    autoComplete="email"
+                    maxLength={FIELD_LIMITS.email}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                    className={fieldClass(errors.email)}
+                  />
+                  {errors.email && (
+                    <p id="contact-email-error" className="text-xs font-medium text-[#16191a]/70">
+                      {errors.email}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-[#16191a]/70">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    placeholder="How can we help you?"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={5}
+                    maxLength={FIELD_LIMITS.message}
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                    className={`${fieldClass(errors.message)} resize-none`}
+                  />
+                  {errors.message && (
+                    <p id="contact-message-error" className="text-xs font-medium text-[#16191a]/70">
+                      {errors.message}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#36FE35] px-7 py-3.5 text-sm font-semibold text-[#16191A] transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+
+                <p className="text-center text-xs text-[#16191a]/45">
+                  By submitting this form, you agree to our privacy policy.
+                </p>
+              </form>
+            )}
+          </div>
+
+          {/* Channel column */}
+          <div className="flex flex-col gap-4">
+            {contactChannels.map((channel) => {
+              const cardTone = channel.tone === 'lime' ? 'card-lime' : 'card-ink';
+              const chipTone =
+                channel.tone === 'lime'
+                  ? 'bg-[#16191a] text-[#36FE35]'
+                  : 'bg-white/10 text-[#36FE35]';
+              const handleTone = channel.tone === 'lime' ? 'text-[#16191a]/70' : 'text-white/55';
+              const arrowTone = channel.tone === 'lime' ? 'text-[#16191a]' : 'text-white/70';
+
+              return (
+                <a
+                  key={channel.name}
+                  data-reveal
+                  href={channel.link}
+                  target={channel.external ? '_blank' : undefined}
+                  rel={channel.external ? 'noopener noreferrer' : undefined}
+                  onClick={
+                    channel.external
+                      ? undefined
+                      : (e) => {
+                          e.preventDefault();
+                          document.querySelector('#contact-form')?.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                          });
+                        }
+                  }
+                  className={`group ${cardTone} flex items-center gap-4 !p-5`}
+                >
+                  <span className={`icon-chip flex-shrink-0 ${chipTone}`}>
+                    <channel.icon className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[15px] font-semibold tracking-tight">{channel.name}</p>
+                    <p className={`text-sm ${handleTone}`}>{channel.handle}</p>
+                  </div>
+                  <ArrowUpRight
+                    className={`h-4 w-4 flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${arrowTone}`}
+                  />
+                </a>
+              );
+            })}
+
+            <div data-reveal className="card-paper mt-1 hover:translate-y-0 !p-6">
+              <div className="mb-4 flex items-center gap-2">
+                <Clock className="h-4 w-4 text-[#16191a]" />
+                <h4 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#16191a]">
+                  Support Hours
+                </h4>
+              </div>
+              <p className="mb-4 text-sm leading-relaxed text-[#16191a]/60">
+                Our community is active 24/7, but official support responses are typically provided during:
+              </p>
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center justify-between gap-4 border-b border-[#16191a]/10 pb-3">
+                  <span className="font-medium text-[#16191a]">Monday - Friday</span>
+                  <span className="font-mono text-xs tracking-wide text-[#16191a]/55">
+                    9:00 AM - 6:00 PM UTC
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="font-medium text-[#16191a]">Weekend</span>
+                  <span className="font-mono text-xs tracking-wide text-[#16191a]/55">
+                    Community Support Only
+                  </span>
                 </div>
               </div>
             </div>
-          </motion.div>
-
-          {/* Right - Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-          >
-            <div className="glass-card p-8">
-              <h3 className="text-2xl font-semibold mb-2">Send a Message</h3>
-              <p className="text-white/50 mb-6">
-                Fill out the form below and we'll get back to you as soon as possible.
-              </p>
-
-              {isSubmitted ? (
-                <motion.div 
-                  className="text-center py-12"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                >
-                  <div className="w-20 h-20 rounded-full bg-[#35fe34]/20 flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle2 className="w-10 h-10 text-[#35fe34]" />
-                  </div>
-                  <h4 className="text-2xl font-semibold mb-2">Message Sent!</h4>
-                  <p className="text-white/60">
-                    Thank you for reaching out. We'll respond within 24 hours.
-                  </p>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-white/70">
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="John Doe"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className={`
-                        input-premium
-                        ${errors.name ? 'border-red-500/50 focus:border-red-500' : ''}
-                      `}
-                    />
-                    {errors.name && (
-                      <p className="text-red-400 text-xs mt-1">{errors.name}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-white/70">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="john@example.com"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`
-                        input-premium
-                        ${errors.email ? 'border-red-500/50 focus:border-red-500' : ''}
-                      `}
-                    />
-                    {errors.email && (
-                      <p className="text-red-400 text-xs mt-1">{errors.email}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-white/70">
-                      Message
-                    </label>
-                    <textarea
-                      name="message"
-                      placeholder="How can we help you?"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={5}
-                      className={`
-                        input-premium resize-none
-                        ${errors.message ? 'border-red-500/50 focus:border-red-500' : ''}
-                      `}
-                    />
-                    {errors.message && (
-                      <p className="text-red-400 text-xs mt-1">{errors.message}</p>
-                    )}
-                  </div>
-
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full btn-neon gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                    whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        Send Message
-                      </>
-                    )}
-                  </motion.button>
-
-                  <p className="text-xs text-white/40 text-center">
-                    By submitting this form, you agree to our privacy policy.
-                  </p>
-                </form>
-              )}
-            </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

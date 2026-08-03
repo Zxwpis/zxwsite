@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Zap, Shield, Cpu, Gauge, RefreshCw, Gamepad2, Layers, Settings } from 'lucide-react';
+import { useSectionReveal } from '../lib/anim';
+import { HeadingFlip } from '../components/HeadingFlip';
 
 const features = [
   {
@@ -8,46 +8,52 @@ const features = [
     title: 'Performance Boost',
     description: 'Optimize Windows services, registry, and power settings for maximum gaming performance.',
     stat: '+40% FPS',
-    gradient: 'from-[#35fe34] to-[#5fff5e]',
+    tone: 'lime' as const,
+    span: true,
   },
   {
     icon: Shield,
     title: 'Safe & Reversible',
     description: 'All tweaks include automatic restore points. One-click rollback anytime.',
     stat: '100% Safe',
-    gradient: 'from-[#5fff5e] to-[#35fe34]',
+    tone: 'ink' as const,
+    span: false,
   },
   {
     icon: Cpu,
     title: 'System Debloat',
     description: 'Remove unnecessary Windows bloatware and background processes.',
-    stat: '-15%',
-    gradient: 'from-[#35fe34] to-[#20c41f]',
+    stat: '-15% Bloat',
+    tone: 'paper' as const,
+    span: false,
   },
   {
     icon: Gauge,
     title: 'Latency Reduction',
     description: 'Minimize input lag with advanced timer and interrupt optimizations.',
     stat: '-30% Latency',
-    gradient: 'from-[#5fff5e] to-[#35fe34]',
+    tone: 'ink' as const,
+    span: false,
   },
   {
     icon: RefreshCw,
     title: 'Auto Updates',
     description: 'Get the latest optimizations automatically with our update system.',
     stat: 'Always Current',
-    gradient: 'from-[#35fe34] to-[#5fff5e]',
+    tone: 'paper' as const,
+    span: false,
   },
   {
     icon: Gamepad2,
     title: 'Gaming Focused',
     description: 'Specifically designed for gamers who demand the best performance.',
     stat: 'Proven Results',
-    gradient: 'from-[#5fff5e] to-[#35fe34]',
+    tone: 'paper' as const,
+    span: true,
   },
 ];
 
-const v2Improvements = [
+const v3Improvements = [
   {
     icon: Layers,
     title: 'New UI',
@@ -60,190 +66,137 @@ const v2Improvements = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+const toneClass = {
+  paper: 'card-paper',
+  ink: 'card-ink',
+  lime: 'card-lime',
+} as const;
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-    },
-  },
-};
+const chipClass = {
+  paper: 'icon-chip bg-[#36FE35]/15 text-[#16191a]',
+  ink: 'icon-chip bg-white/10 text-[#36FE35]',
+  lime: 'icon-chip bg-[#16191a]/10 text-[#16191a]',
+} as const;
+
+const statClass = {
+  paper: 'pill-outline',
+  ink: 'pill-lime',
+  lime: 'pill-ink',
+} as const;
+
+const titleClass = {
+  paper: 'text-[#16191a]',
+  ink: 'text-white',
+  lime: 'text-[#16191a]',
+} as const;
+
+const descClass = {
+  paper: 'text-[#16191a]/60',
+  ink: 'text-white/60',
+  lime: 'text-[#16191a]/70',
+} as const;
 
 export function Features() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -10% 0px' }
-    );
-
-    const elements = document.querySelectorAll('#features .animate-on-scroll');
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
+  const ref = useSectionReveal();
 
   return (
-    <section id="features" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
-      </div>
+    <section id="features" ref={ref} className="section-shell">
+      <div className="section-glow top-1/3 h-[420px] w-[720px] opacity-60" aria-hidden="true" />
 
       <div className="section-container relative z-10">
-        {/* Section Header */}
-        <motion.div 
-          className="text-center max-w-3xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
-            <Zap className="w-4 h-4 text-[#35fe34]" />
-            <span className="text-sm font-medium text-[#35fe34]">Powerful Features</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Everything You Need for
-            <span className="gradient-text block mt-2">Maximum Performance</span>
-          </h2>
-          <p className="text-lg text-white/60">
-            ZXWY V2 combines powerful optimization tools with an intuitive interface 
-            to give you complete control over your system's performance.
+        <div className="section-head" data-reveal>
+          <span className="pill-outline">
+            <Zap className="h-3.5 w-3.5 text-[#36FE35]" />
+            Powerful Features
+          </span>
+          <HeadingFlip
+            className="section-title text-balance"
+            front={[{ text: 'Everything you need for ' }, { text: 'maximum performance', lime: true }]}
+            back={[{ text: 'No fluff, ' }, { text: 'just frames', lime: true }]}
+          />
+          <p className="section-lede">
+            ZXWY V3 combines powerful optimization tools with an intuitive interface
+            to give you complete control over your system&apos;s performance.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Features Grid */}
-        <motion.div 
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-        >
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
-            <motion.div
+            <article
               key={feature.title}
-              variants={itemVariants}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="feature-card group cursor-pointer"
+              data-reveal
+              className={`group flex min-h-[240px] flex-col justify-between ${toneClass[feature.tone]} ${
+                feature.span ? 'lg:col-span-2' : ''
+              }`}
             >
-              {/* Icon */}
-              <div className={`
-                w-14 h-14 rounded-xl flex items-center justify-center mb-5
-                bg-gradient-to-br ${feature.gradient} bg-opacity-10
-                group-hover:scale-110 transition-transform duration-500
-              `}>
-                <feature.icon className="w-7 h-7 text-white" />
-              </div>
-
-              {/* Content */}
-              <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-[#35fe34] transition-colors duration-300 text-display tracking-wide">
-                {feature.title}
-              </h3>
-              <p className="text-white/50 mb-4 text-sm leading-relaxed">
-                {feature.description}
-              </p>
-
-              {/* Stat Badge */}
-              <div className={`
-                inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold
-                bg-gradient-to-r ${feature.gradient} bg-opacity-10 text-white
-                border border-white/10
-              `}>
-                {feature.stat}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* V2 Improvements */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="relative overflow-hidden rounded-3xl glass-card p-8 md:p-12">
-            {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#35fe34]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
-            
-            <div className="relative grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left Content */}
-              <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/20 border border-[#35fe34]/40 mb-6">
-                  <span className="w-2 h-2 rounded-full bg-[#35fe34] animate-pulse" />
-                  <span className="text-sm font-medium text-[#35fe34]">What's New in V2</span>
+              <div className="flex items-start justify-between gap-4">
+                <div className={chipClass[feature.tone]}>
+                  <feature.icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                  Major Upgrade from
-                  <span className="gradient-text block mt-1">Version 1</span>
+                <span className={statClass[feature.tone]}>{feature.stat}</span>
+              </div>
+
+              <div className="mt-8 space-y-3">
+                <h3 className={`text-xl font-semibold tracking-tight ${titleClass[feature.tone]}`}>
+                  {feature.title}
                 </h3>
-                <p className="text-white/60 text-lg mb-8">
-                  We've completely rebuilt ZXWY from the ground up with new features, 
-                  better performance, and a more intuitive experience.
+                <p className={`max-w-md text-[15px] leading-relaxed ${descClass[feature.tone]}`}>
+                  {feature.description}
                 </p>
-                
-                {/* Improvement Stats */}
-                <div className="flex flex-wrap gap-4">
-                  {[
-                    { value: '3x', label: 'Faster' },
-                    { value: '50+', label: 'New Tweaks' },
-                  ].map((stat) => (
-                    <motion.div 
-                      key={stat.label}
-                      className="px-5 py-3 rounded-xl glass-card"
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      <div className="text-2xl font-bold text-[#35fe34]">{stat.value}</div>
-                      <div className="text-sm text-white/50">{stat.label}</div>
-                    </motion.div>
-                  ))}
-                </div>
               </div>
+            </article>
+          ))}
+        </div>
 
-              {/* Right Content - Improvements List */}
-              <div className="space-y-4">
-                {v2Improvements.map((improvement) => (
-                  <motion.div
-                    key={improvement.title}
-                    className="flex items-start gap-4 p-5 rounded-2xl glass-card hover:border-[#35fe34]/30 transition-all duration-300"
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.15, duration: 0.5 }}
-                    whileHover={{ x: 5 }}
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-[#35fe34]/10 flex items-center justify-center flex-shrink-0">
-                      <improvement.icon className="w-6 h-6 text-[#35fe34]" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-lg mb-1">{improvement.title}</h4>
-                      <p className="text-white/50 text-sm">{improvement.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
+        {/* V3 improvements strip */}
+        <div
+          data-reveal
+          className="card-ink mt-6 grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:p-10"
+        >
+          <div className="space-y-5">
+            <span className="pill-lime">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#16191a]" />
+              What&apos;s new in V3
+            </span>
+            <h3 className="display-quiet text-[clamp(1.75rem,3vw,2.4rem)] text-white">
+              Major upgrade from{' '}
+              <span className="hl-lime">Version 2</span>
+            </h3>
+            <p className="max-w-md text-[15px] leading-relaxed text-white/55">
+              We&apos;ve completely rebuilt ZXWY from the ground up with new features,
+              better performance, and a more intuitive experience.
+            </p>
+            <div className="flex flex-wrap gap-3 pt-1">
+              <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-3">
+                <p className="metric text-[2rem] text-white">Up to 3x</p>
+                <p className="metric-caption text-white">Faster tweak apply</p>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-3">
+                <p className="metric text-[2rem] text-white">50+</p>
+                <p className="metric-caption text-white">New Tweaks</p>
               </div>
             </div>
           </div>
-        </motion.div>
+
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
+            {v3Improvements.map((item) => (
+              <div
+                key={item.title}
+                className="flex h-full flex-col gap-4 rounded-[22px] border border-white/10 bg-white/[0.04] p-5 transition-colors duration-300 hover:bg-white/[0.07]"
+              >
+                <div className="icon-chip bg-[#36FE35]/15 text-[#36FE35]">
+                  <item.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-base font-semibold text-white">{item.title}</h4>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/55">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

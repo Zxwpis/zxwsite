@@ -1,5 +1,9 @@
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, MessageCircle, Gamepad2, Github, Twitter } from 'lucide-react';
+import { ArrowUp, ArrowUpRight } from 'lucide-react';
+import { FaDiscord, FaTelegramPlane } from 'react-icons/fa';
+import { DISCORD_INVITE_URL } from '../config/links';
+import FaultyTerminal from '../components/FaultyTerminal';
 
 const footerLinks = {
   product: [
@@ -11,7 +15,7 @@ const footerLinks = {
   support: [
     { label: 'FAQ', href: '#faq' },
     { label: 'Contact', href: '#contact' },
-    { label: 'Discord', href: 'https://discord.gg/UQmBUXct' },
+    { label: 'Discord', href: DISCORD_INVITE_URL },
     { label: 'Telegram', href: 'https://t.me/ZXWYTWEAKING' },
   ],
   legal: [
@@ -21,154 +25,213 @@ const footerLinks = {
   ],
 };
 
+const socials = [
+  { icon: FaTelegramPlane, href: 'https://t.me/ZXWYTWEAKING', label: 'Telegram' },
+  { icon: FaDiscord, href: DISCORD_INVITE_URL, label: 'Discord' },
+];
+
+
 export function Footer() {
+  const wordmarkRef = useRef<HTMLDivElement>(null);
+
   const scrollToSection = (href: string) => {
     if (href.startsWith('#')) {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  return (
-    <footer className="relative pt-20 pb-8 border-t border-white/10">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#35fe34]/5 rounded-full blur-[100px]" />
-      </div>
+  const handleWordmarkMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = wordmarkRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    el.style.setProperty('--y', `${e.clientY - rect.top}px`);
+  };
 
-      <div className="section-container relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-4 lg:col-span-2">
-            <motion.a 
-              href="#hero" 
-              onClick={(e) => { e.preventDefault(); scrollToSection('#hero'); }}
-              className="flex items-center gap-3 mb-4 group"
-              whileHover={{ scale: 1.02 }}
+  const renderColumn = (
+    index: string,
+    title: string,
+    links: { label: string; href: string }[]
+  ) => (
+    <div>
+      <p className="index-tag mb-5 text-[#36FE35]/70">
+        {index} · {title}
+      </p>
+      <ul className="space-y-3.5">
+        {links.map((link) => (
+          <li key={link.label}>
+            <a
+              href={link.href}
+              onClick={(e) => {
+                if (link.href.startsWith('#')) {
+                  e.preventDefault();
+                  scrollToSection(link.href);
+                }
+              }}
+              target={link.href.startsWith('http') ? '_blank' : undefined}
+              rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="group inline-flex items-center gap-1.5 text-[15px] text-white/65 transition-colors duration-300 hover:text-white"
             >
-              <img
-                src="/logo.png"
-                alt="ZXWY V2 Logo"
-                className="w-10 h-10 object-contain"
-                loading="eager"
-                width={40}
-                height={40}
-                style={{
-                  imageRendering: 'crisp-edges',
-                  filter: 'drop-shadow(0 0 0px rgba(53,254,52,0))',
-                  transition: 'filter 0.3s ease',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(53,254,52,0.6))')}
-                onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 0px rgba(53,254,52,0))')}
-              />
-              <div>
-                <span className="text-xl font-bold text-display tracking-widest">ZXWY <span className="text-[#35fe34]">V2</span></span>
-              </div>
-            </motion.a>
-            <p className="text-white/50 text-sm mb-6 max-w-xs">
-              The ultimate PC optimization toolkit for gamers. Boost performance, 
-              reduce latency, and unlock your system's full potential.
+              {link.label}
+              <ArrowUpRight className="h-3.5 w-3.5 text-[#36FE35] opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  return (
+    <footer className="relative px-4 pb-4 pt-24 sm:px-6">
+      <div className="relative mx-auto max-w-[1440px]">
+        {/* ── Block 1: full-bleed lime hero — the loud, unmistakable first read ── */}
+        <div className="relative overflow-hidden rounded-[36px] bg-[#36FE35] px-7 pb-28 pt-16 text-[#16191A] sm:px-12 sm:pb-36 sm:pt-20">
+          {/* Same digital-glitch background as the Hero, blended over the lime field instead of
+              inverted to white — "lighten" blend mode keeps the black clear color hidden (lime
+              stays lime wherever the src is darker) while the brightest specks reach true white,
+              since "screen" can't beat lime's already-high green channel and looked tinted green. */}
+          <div className="absolute inset-0 mix-blend-lighten" aria-hidden="true">
+            <FaultyTerminal
+              scale={3.2}
+              gridMul={[2, 1]}
+              digitSize={1}
+              timeScale={0.5}
+              scanlineIntensity={0.4}
+              glitchAmount={1}
+              flickerAmount={0.8}
+              noiseAmp={1}
+              chromaticAberration={0}
+              dither={0}
+              curvature={0}
+              tint="#FFFFFF"
+              mouseReact
+              mouseStrength={0.3}
+              pageLoadAnimation
+              brightness={1}
+            />
+          </div>
+
+          <div className="relative mx-auto max-w-3xl text-center">
+            <span className="pill-ink mx-auto">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#36FE35]" />
+              ready when you are
+            </span>
+
+            <h2 className="display-dot mt-8 text-[clamp(2.75rem,8.5vw,7rem)] leading-[0.94] tracking-[0.01em]">
+              Stop losing
+              <br />
+              frames.
+            </h2>
+
+            <p className="mx-auto mt-7 max-w-md text-[15px] leading-relaxed text-[#16191A]/70">
+              One download, zero bloat, every tweak reversible. Join the players who
+              already squeezed every frame out of their machines.
             </p>
-            
-            {/* Social Links */}
-            <div className="flex gap-3">
-              {[
-                { icon: MessageCircle, href: 'https://t.me/ZXWYTWEAKING', label: 'Telegram', color: '#0088cc' },
-                { icon: Gamepad2, href: 'https://discord.gg/UQmBUXct', label: 'Discord', color: '#5865F2' },
-                { icon: Github, href: '#', label: 'GitHub', color: '#35fe34' },
-                { icon: Twitter, href: '#', label: 'Twitter', color: '#35fe34' },
-              ].map((social) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target={social.href.startsWith('http') ? '_blank' : undefined}
-                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white/50 hover:text-[#35fe34] hover:bg-[#35fe34]/10 transition-all duration-300"
-                  aria-label={social.label}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
-              ))}
+
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+              <button
+                onClick={() => scrollToSection('#download')}
+                className="group inline-flex items-center gap-2 rounded-full bg-[#16191A] px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-black"
+              >
+                Download ZXWY V3
+                <ArrowUpRight className="h-4 w-4 text-[#36FE35] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+              <button
+                onClick={() => scrollToSection('#contact')}
+                className="inline-flex items-center gap-2 rounded-full border border-[#16191A]/25 px-7 py-3.5 text-sm font-semibold text-[#16191A]/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#16191A]/60 hover:text-[#16191A]"
+              >
+                Talk to us
+              </button>
             </div>
-          </div>
-
-          {/* Product Links */}
-          <div>
-            <h4 className="font-semibold mb-4">Product</h4>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => { 
-                      e.preventDefault(); 
-                      scrollToSection(link.href); 
-                    }}
-                    className="text-sm text-white/50 hover:text-[#35fe34] transition-colors duration-300"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support Links */}
-          <div>
-            <h4 className="font-semibold mb-4">Support</h4>
-            <ul className="space-y-3">
-              {footerLinks.support.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      if (link.href.startsWith('#')) {
-                        e.preventDefault();
-                        scrollToSection(link.href);
-                      }
-                    }}
-                    target={link.href.startsWith('http') ? '_blank' : undefined}
-                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="text-sm text-white/50 hover:text-[#35fe34] transition-colors duration-300"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal Links */}
-          <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
-            <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-white/50 hover:text-[#35fe34] transition-colors duration-300"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-white/40 text-center md:text-left">
-              © 2025 ZXWY V2. All rights reserved.
+        {/* ── Block 2: dark card floating up into the lime block above ── */}
+        <div className="relative z-10 -mt-16 rounded-[30px] bg-[#16191A] px-7 pt-12 text-white shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] sm:-mt-20 sm:px-12">
+          {/* Brand + link columns */}
+          <div className="grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+            <div className="space-y-5">
+              <motion.a
+                href="#hero"
+                onClick={(e) => { e.preventDefault(); scrollToSection('#hero'); }}
+                className="inline-flex items-center gap-3"
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white/10">
+                  <img
+                    src="/White.png"
+                    alt="ZXWY V3 Logo"
+                    className="h-7 w-7 object-contain"
+                    loading="lazy"
+                    width={28}
+                    height={28}
+                  />
+                </div>
+                <span className="text-[17px] font-semibold tracking-tight text-white">
+                  ZXWY <span className="text-[#36FE35]">V3</span>
+                </span>
+              </motion.a>
+              <p className="max-w-xs text-sm leading-relaxed text-white/50">
+                The PC optimization toolkit for people who care about the last frame,
+                the last millisecond and nothing else.
+              </p>
+              <div className="flex gap-2.5">
+                {socials.map((social) => (
+                  <motion.a
+                    key={social.label}
+                    href={social.href}
+                    target={social.href.startsWith('http') ? '_blank' : undefined}
+                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/70 transition-all duration-300 hover:-translate-y-1 hover:border-[#36FE35] hover:bg-[#36FE35] hover:text-[#16191A]"
+                    aria-label={social.label}
+                    whileTap={{ scale: 0.92 }}
+                  >
+                    <social.icon className="h-4 w-4" />
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+
+            {renderColumn('01', 'Product', footerLinks.product)}
+            {renderColumn('02', 'Support', footerLinks.support)}
+            {renderColumn('03', 'Legal', footerLinks.legal)}
+          </div>
+
+          {/* Oversized interactive wordmark — hover to sweep a lime spotlight across it */}
+          <div
+            ref={wordmarkRef}
+            onMouseMove={handleWordmarkMove}
+            className="group/wordmark relative -mx-7 select-none overflow-hidden px-7 sm:-mx-12 sm:px-12"
+          >
+            <p
+              aria-hidden="true"
+              className="display-dot -mb-[0.14em] whitespace-nowrap text-[clamp(3rem,15vw,11rem)] leading-[0.9] tracking-[0.02em] text-white/[0.08]"
+            >
+              ZXWY V3
             </p>
-            <p className="text-sm text-white/40 flex items-center gap-1">
-              Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> for the gaming community
+            <p
+              aria-hidden="true"
+              className="spotlight-reveal pointer-events-none absolute inset-0 -mb-[0.14em] whitespace-nowrap px-7 text-[clamp(3rem,15vw,11rem)] leading-[0.9] tracking-[0.02em] text-[#36FE35] opacity-0 transition-opacity duration-300 group-hover/wordmark:opacity-100 sm:px-12"
+              style={{ fontFamily: "'Dotective', 'Fraunces', Georgia, serif" }}
+            >
+              ZXWY V3
             </p>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="relative -mx-7 border-t border-white/10 px-7 py-6 sm:-mx-12 sm:px-12">
+            <div className="flex flex-col items-center justify-between gap-3 text-xs text-white/40 sm:flex-row">
+              <p>© 2026 ZXWY V3. All rights reserved.</p>
+              <motion.button
+                onClick={() => scrollToSection('#hero')}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.94 }}
+                aria-label="Back to top"
+                className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/60 transition-colors duration-300 hover:border-[#36FE35] hover:text-[#36FE35]"
+              >
+                <ArrowUp className="h-4 w-4" />
+              </motion.button>
+            </div>
           </div>
         </div>
       </div>

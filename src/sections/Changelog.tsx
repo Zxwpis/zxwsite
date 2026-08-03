@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GitCommit, Sparkles, Bug, Zap, Shield, ChevronDown, Calendar } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+import { useSectionReveal } from '../lib/anim';
+import { HeadingFlip } from '../components/HeadingFlip';
 
 interface ChangelogEntry {
   version: string;
@@ -14,8 +16,23 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.0',
+    date: 'July 2026',
+    type: 'major',
+    changes: [
+      { type: 'feature', description: 'Complete UI redesign with modern interface' },
+      { type: 'feature', description: 'Added 50+ new tweak options' },
+      { type: 'feature', description: 'New automatic restore point system' },
+      { type: 'improvement', description: '3x faster tweak application speed' },
+      { type: 'improvement', description: 'Enhanced Windows 11 compatibility' },
+      { type: 'security', description: 'Improved safety checks before applying tweaks' },
+      { type: 'fix', description: 'Fixed rare crash on startup' },
+      { type: 'fix', description: 'Resolved power plan conflicts' },
+    ],
+  },
+  {
     version: '2.0.0',
-    date: 'February 2025',
+    date: 'February 2026',
     type: 'major',
     changes: [
       { type: 'feature', description: 'Complete UI redesign with modern interface' },
@@ -30,7 +47,7 @@ const changelogData: ChangelogEntry[] = [
   },
   {
     version: '1.5.2',
-    date: 'January 2025',
+    date: 'January 2026',
     type: 'patch',
     changes: [
       { type: 'fix', description: 'Fixed GPU tweak not applying on some systems' },
@@ -40,7 +57,7 @@ const changelogData: ChangelogEntry[] = [
   },
   {
     version: '1.5.0',
-    date: 'December 2024',
+    date: 'December 2025',
     type: 'minor',
     changes: [
       { type: 'feature', description: 'Added BIOS optimization guide' },
@@ -51,7 +68,7 @@ const changelogData: ChangelogEntry[] = [
   },
   {
     version: '1.4.1',
-    date: 'November 2024',
+    date: 'November 2025',
     type: 'patch',
     changes: [
       { type: 'fix', description: 'Fixed memory leak in monitoring module' },
@@ -60,7 +77,7 @@ const changelogData: ChangelogEntry[] = [
   },
   {
     version: '1.4.0',
-    date: 'October 2024',
+    date: 'October 2025',
     type: 'minor',
     changes: [
       { type: 'feature', description: 'Added custom power plan creator' },
@@ -70,13 +87,6 @@ const changelogData: ChangelogEntry[] = [
   },
 ];
 
-const typeIcons = {
-  feature: Sparkles,
-  fix: Bug,
-  improvement: Zap,
-  security: Shield,
-};
-
 const typeLabels = {
   feature: 'New Feature',
   fix: 'Bug Fix',
@@ -84,15 +94,9 @@ const typeLabels = {
   security: 'Security',
 };
 
-const typeColors = {
-  feature: 'text-blue-400 bg-blue-400/10 border-blue-400/30',
-  fix: 'text-red-400 bg-red-400/10 border-red-400/30',
-  improvement: 'text-green-400 bg-green-400/10 border-green-400/30',
-  security: 'text-purple-400 bg-purple-400/10 border-purple-400/30',
-};
-
 export function Changelog() {
-  const [expandedVersions, setExpandedVersions] = useState<string[]>(['2.0.0']);
+  const ref = useSectionReveal();
+  const [expandedVersions, setExpandedVersions] = useState<string[]>(['3.0.0']);
 
   const toggleVersion = (version: string) => {
     setExpandedVersions((prev) =>
@@ -103,162 +107,175 @@ export function Changelog() {
   };
 
   return (
-    <section id="changelog" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
-      </div>
+    <section id="changelog" ref={ref} className="section-shell bg-transparent">
+      <div className="section-glow bottom-0 h-[380px] w-[640px] opacity-35" />
 
-      <div className="section-container relative z-10 max-w-4xl mx-auto">
-        {/* Section Header */}
-        <motion.div 
-          className="text-center max-w-3xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
-            <GitCommit className="w-4 h-4 text-[#35fe34]" />
-            <span className="text-sm font-medium text-[#35fe34]">Updates</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="gradient-text">Changelog</span>
-          </h2>
-          <p className="text-lg text-white/60">
-            Track all updates and improvements to ZXWY. See what's new in V2 
+      <div className="section-container relative z-10 max-w-3xl">
+        <div className="section-head" data-reveal>
+          <span className="pill-outline">Updates</span>
+          <HeadingFlip
+            className="section-title"
+            front={[{ text: 'Changelog', lime: true }]}
+            back={[{ text: 'Always shipping', lime: true }]}
+          />
+          <p className="section-lede">
+            Track all updates and improvements to ZXWY. See what&apos;s new in V3
             and browse our version history.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Changelog Entries */}
-        <div className="space-y-4">
-          {changelogData.map((entry, index) => {
-            const isExpanded = expandedVersions.includes(entry.version);
-            const isLatest = index === 0;
+        {/* Editorial timeline */}
+        <div className="relative">
+          <div
+            className="absolute bottom-4 left-[19px] top-4 w-px bg-[#16191a]/10 md:left-[23px]"
+            aria-hidden="true"
+          />
 
-            return (
-              <motion.div
-                key={entry.version}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <div 
-                  className={`
-                    relative rounded-2xl border overflow-hidden transition-all duration-300
-                    ${isLatest 
-                      ? 'bg-[#35fe34]/5 border-[#35fe34]/30' 
-                      : 'glass-card'
-                    }
-                  `}
-                >
-                  {/* Latest Badge */}
-                  {isLatest && (
-                    <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 rounded-full bg-[#35fe34] text-black text-xs font-semibold">
-                        Latest
-                      </span>
-                    </div>
-                  )}
+          <div className="space-y-5">
+            {changelogData.map((entry, index) => {
+              const isExpanded = expandedVersions.includes(entry.version);
+              const isLatest = index === 0;
 
-                  {/* Header */}
-                  <button
-                    onClick={() => toggleVersion(entry.version)}
-                    className="w-full p-6 flex items-center gap-4 text-left"
+              return (
+                <div key={entry.version} data-reveal className="relative pl-12 md:pl-14">
+                  {/* Timeline node */}
+                  <span
+                    className={`absolute left-0 top-8 grid h-10 w-10 place-items-center rounded-full border md:h-12 md:w-12 ${
+                      isLatest
+                        ? 'border-[#36FE35]/40 bg-[#36FE35]'
+                        : 'border-[#16191a]/10 bg-white'
+                    }`}
+                    aria-hidden="true"
                   >
-                    {/* Version Icon */}
-                    <div className={`
-                      w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0
-                      ${entry.type === 'major' 
-                        ? 'bg-[#35fe34]/20 text-[#35fe34]' 
-                        : entry.type === 'minor'
-                        ? 'bg-[#35fe34]/10 text-[#35fe34]/80'
-                        : 'bg-white/5 text-white/50'
-                      }
-                    `}>
-                      <GitCommit className="w-6 h-6" />
-                    </div>
+                    <span
+                      className={`h-2 w-2 rounded-full ${
+                        isLatest ? 'bg-[#16191a]' : 'bg-[#16191a]/30'
+                      }`}
+                    />
+                  </span>
 
-                    {/* Version Info */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-1">
-                        <h3 className="text-xl font-bold text-display tracking-wide">Version {entry.version}</h3>
-                        {entry.type === 'major' && (
-                          <span className="px-2 py-0.5 rounded bg-[#35fe34]/10 text-[#35fe34] text-xs font-medium">
-                            Major
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-white/50">
-                        <Calendar className="w-4 h-4" />
-                        {entry.date}
-                      </div>
-                    </div>
-
-                    {/* Toggle Icon */}
-                    <motion.div 
-                      className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center"
-                      animate={{ rotate: isExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
+                  <article
+                    className={
+                      isLatest
+                        ? 'card-ink !p-0'
+                        : 'card-paper !p-0'
+                    }
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleVersion(entry.version)}
+                      className="flex w-full items-start gap-4 p-6 text-left md:p-7"
+                      aria-expanded={isExpanded}
+                      aria-controls={`changelog-${entry.version}`}
                     >
-                      <ChevronDown className="w-5 h-5 text-white/50" />
-                    </motion.div>
-                  </button>
-
-                  {/* Changes List */}
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div className="px-6 pb-6">
-                          <div className="border-t border-white/10 pt-4">
-                            <div className="space-y-3">
-                              {entry.changes.map((change, changeIndex) => {
-                                const Icon = typeIcons[change.type];
-                                return (
-                                  <motion.div
-                                    key={changeIndex}
-                                    className="flex items-start gap-3 p-3 rounded-xl bg-white/5"
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: changeIndex * 0.05 }}
-                                  >
-                                    <div className={`
-                                      w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0
-                                      border ${typeColors[change.type]}
-                                    `}>
-                                      <Icon className="w-4 h-4" />
-                                    </div>
-                                    <div className="flex-1">
-                                      <span className={`
-                                        text-xs font-medium px-2 py-0.5 rounded mb-1 inline-block
-                                        ${typeColors[change.type]}
-                                      `}>
-                                        {typeLabels[change.type]}
-                                      </span>
-                                      <p className="text-sm text-white/80">
-                                        {change.description}
-                                      </p>
-                                    </div>
-                                  </motion.div>
-                                );
-                              })}
-                            </div>
-                          </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-3 flex flex-wrap items-center gap-2">
+                          <span className={isLatest ? 'pill-lime' : 'pill-ink'}>
+                            v{entry.version}
+                          </span>
+                          {entry.type === 'major' && (
+                            <span
+                              className={
+                                isLatest
+                                  ? 'rounded-full border border-white/20 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white/70'
+                                  : 'pill-outline'
+                              }
+                            >
+                              Major
+                            </span>
+                          )}
+                          {isLatest && (
+                            <span className="rounded-full border border-[#36FE35]/40 bg-[#36FE35]/15 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#36FE35]">
+                              Latest
+                            </span>
+                          )}
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <h3
+                            className={`text-lg font-semibold tracking-tight md:text-xl ${
+                              isLatest ? 'text-white' : 'text-[#16191a]'
+                            }`}
+                          >
+                            Version {entry.version}
+                          </h3>
+                          <span
+                            className={`index-tag ${
+                              isLatest ? 'text-white/50 opacity-100' : ''
+                            }`}
+                          >
+                            {entry.date}
+                          </span>
+                        </div>
+                      </div>
+
+                      <span
+                        className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border transition-transform duration-300 ${
+                          isExpanded ? 'rotate-180' : ''
+                        } ${
+                          isLatest
+                            ? 'border-white/15 text-white/70'
+                            : 'border-[#16191a]/10 text-[#16191a]/55'
+                        }`}
+                        aria-hidden="true"
+                      >
+                        <ChevronDown className="h-4 w-4" />
+                      </span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isExpanded && (
+                        <motion.div
+                          id={`changelog-${entry.version}`}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div
+                            className={`mx-6 mb-6 border-t pt-5 md:mx-7 md:mb-7 ${
+                              isLatest ? 'border-white/10' : 'border-[#16191a]/10'
+                            }`}
+                          >
+                            <ul className="space-y-3">
+                              {entry.changes.map((change, changeIndex) => (
+                                <li
+                                  key={changeIndex}
+                                  className="flex items-start gap-3"
+                                >
+                                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#36FE35]" />
+                                  <div className="min-w-0 flex-1">
+                                    <span
+                                      className={`mb-1 inline-block font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${
+                                        isLatest
+                                          ? 'text-[#36FE35]/80'
+                                          : 'text-[#16191a]/45'
+                                      }`}
+                                    >
+                                      {typeLabels[change.type]}
+                                    </span>
+                                    <p
+                                      className={`text-sm leading-relaxed ${
+                                        isLatest
+                                          ? 'text-white/70'
+                                          : 'text-[#16191a]/70'
+                                      }`}
+                                    >
+                                      {change.description}
+                                    </p>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </article>
                 </div>
-              </motion.div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

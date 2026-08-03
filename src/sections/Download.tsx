@@ -1,19 +1,33 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Download as DownloadIcon, Check, AlertTriangle, ExternalLink, Copy, CheckCircle2, MessageCircle, Gamepad2 } from 'lucide-react';
+import {
+  Download as DownloadIcon,
+  Check,
+  AlertTriangle,
+  ExternalLink,
+  Copy,
+  CheckCircle2,
+  MessageCircle,
+  Gamepad2,
+} from 'lucide-react';
+import { useSectionReveal } from '../lib/anim';
+import { HeadingFlip } from '../components/HeadingFlip';
+import { DISCORD_INVITE_URL } from '../config/links';
+
+const DOWNLOAD_URL =
+  'https://drive.google.com/drive/folders/17UcwGUs-j4MrOIpu04aaLiXbC-eahWQM?usp=drive_link';
 
 const requirements = [
   'Windows 10 or Windows 11',
   'Administrator privileges',
   'Internet connection for updates',
-  '50MB free disk space',
+  '50MB disk space',
 ];
 
 const steps = [
   {
     step: 1,
     title: 'Download',
-    description: 'Get ZXWY V2 from our secure Google Drive folder.',
+    description: 'Get ZXWY V3 from our secure Google Drive folder.',
   },
   {
     step: 2,
@@ -23,7 +37,7 @@ const steps = [
   {
     step: 3,
     title: 'Run',
-    description: 'Right-click and run ZXWY_V2.exe as Administrator.',
+    description: 'Right-click and run ZXWY_V3.exe as Administrator.',
   },
   {
     step: 4,
@@ -32,236 +46,206 @@ const steps = [
   },
 ];
 
+const meta = [
+  { label: 'Version', value: '3.0.0' },
+  { label: 'Size', value: '~15 MB' },
+  { label: 'Format', value: 'ZIP' },
+  { label: 'Updated', value: 'July 2026' },
+];
+
 export function Download() {
+  const ref = useSectionReveal();
   const [copied, setCopied] = useState(false);
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText('https://drive.google.com/drive/folders/17UcwGUs-j4MrOIpu04aaLiXbC-eahWQM?usp=drive_link');
+    navigator.clipboard.writeText(DOWNLOAD_URL);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <section id="download" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#35fe34]/5 rounded-full blur-[150px]" />
-      </div>
+    <section id="download" ref={ref} className="section-shell bg-transparent">
+      <div className="section-glow top-1/2 h-[420px] w-[720px] -translate-y-1/2 opacity-40" />
 
       <div className="section-container relative z-10">
-        {/* Section Header */}
-        <motion.div 
-          className="text-center max-w-3xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#35fe34]/10 border border-[#35fe34]/30 mb-6">
-            <DownloadIcon className="w-4 h-4 text-[#35fe34]" />
-            <span className="text-sm font-medium text-[#35fe34]">Get Started</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-display">
-            Download <span className="gradient-text">ZXWY V2</span>
-          </h2>
-          <p className="text-lg text-white/60">
-            Get the latest version of ZXWY V2 for free. Start optimizing your PC 
+        <div className="section-head" data-reveal>
+          <span className="pill-outline">
+            <DownloadIcon className="h-3.5 w-3.5" />
+            Get started
+          </span>
+          <HeadingFlip
+            className="section-title"
+            front={[{ text: 'Download ' }, { text: 'ZXWY V3', lime: true }]}
+            back={[{ text: 'One-time price, ' }, { text: 'no catch', lime: true }]}
+          />
+          <p className="section-lede">
+            Get the latest version of ZXWY V3 and start optimizing your PC
             in minutes with our easy-to-use toolkit.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
-          {/* Left - Download Card */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+        <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_1fr]">
+          {/* Primary CTA slab */}
+          <div
+            data-reveal
+            className="relative flex flex-col overflow-hidden rounded-[36px] bg-[#16191A] p-8 text-white sm:p-10 md:p-12"
           >
-            <div className="relative">
-              {/* Glow */}
-              <div className="absolute -inset-4 bg-[#35fe34]/20 rounded-3xl blur-2xl opacity-50" />
-              
-              {/* Card */}
-              <div className="relative glass-card p-8">
-                {/* Version Badge */}
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-4">
-                    <img 
-                      src="/logo.png" 
-                      alt="ZXWY V2 Logo" 
-                      className="w-14 h-14 object-contain"
-                      style={{ 
-                        imageRendering: 'crisp-edges',
-                        filter: 'drop-shadow(0 0 8px rgba(53,254,52,0.4))',
-                      }}
+            <div className="relative z-10 flex flex-1 flex-col">
+              <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/10">
+                    <img
+                      src="/logo.png"
+                      alt="ZXWY V3 Logo"
+                      className="h-9 w-9 object-contain"
+                      width={36}
+                      height={36}
+                      loading="lazy"
                     />
-                    <div>
-                      <h3 className="text-2xl font-bold text-display tracking-wide">ZXWY V2</h3>
-                      <p className="text-sm text-white/50">Latest Version</p>
-                    </div>
                   </div>
-                  <div className="px-4 py-1.5 rounded-full bg-[#35fe34]/20 border border-[#35fe34]/40 text-[#35fe34] text-sm font-semibold">
-                    Free
+                  <div>
+                    <h3 className="display-quiet text-2xl text-white sm:text-3xl">
+                      ZXWY V3
+                    </h3>
+                    <p className="mt-1 text-sm text-white/50">Latest release · One-time purchase</p>
                   </div>
                 </div>
+                <span className="pill-lime">v3.0</span>
+              </div>
 
-                {/* File Info */}
-                <div className="space-y-3 mb-8 p-5 bg-white/5">
-                  {[
-                    { label: 'Version', value: '2.0.0' },
-                    { label: 'File Size', value: '~15 MB' },
-                    { label: 'Format', value: 'ZIP Archive' },
-                    { label: 'Updated', value: 'February 2025' },
-                  ].map((item) => (
-                    <div key={item.label} className="flex justify-between text-sm">
-                      <span className="text-white/50">{item.label}</span>
-                      <span className="font-medium text-white">{item.value}</span>
-                    </div>
-                  ))}
-                </div>
+              <div className="mb-10 flex flex-wrap gap-2">
+                {meta.map((item) => (
+                  <span
+                    key={item.label}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white/70"
+                  >
+                    <span className="text-white/40">{item.label}</span>
+                    {item.value}
+                  </span>
+                ))}
+              </div>
 
-                {/* Download Button */}
-                <motion.a
-                  href="https://drive.google.com/drive/folders/17UcwGUs-j4MrOIpu04aaLiXbC-eahWQM?usp=drive_link"
+              <div className="mt-auto space-y-3">
+                <a
+                  href={DOWNLOAD_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#36FE35] px-7 py-3.5 text-sm font-semibold text-[#16191A] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white sm:w-auto sm:min-w-[280px]"
                 >
-                  <button className="w-full btn-neon gap-3 text-base py-4">
-                    <DownloadIcon className="w-5 h-5" />
-                    Download from Google Drive
-                    <ExternalLink className="w-4 h-4 ml-auto" />
-                  </button>
-                </motion.a>
+                  <DownloadIcon className="h-4 w-4" />
+                  Download from Google Drive
+                  <ExternalLink className="h-4 w-4 opacity-60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
 
-                {/* Copy Link */}
-                <motion.button
+                <button
+                  type="button"
                   onClick={handleCopyLink}
-                  className="w-full mt-3 flex items-center justify-center gap-2 py-3.5 px-4 border border-white/10 hover:border-[#35fe34]/50 hover:bg-[#35fe34]/5 transition-all duration-300 text-sm text-white/60"
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold text-white/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/50 hover:text-white sm:w-auto sm:min-w-[280px]"
+                  aria-label={copied ? 'Download link copied' : 'Copy download link'}
                 >
                   {copied ? (
                     <>
-                      <CheckCircle2 className="w-4 h-4 text-[#35fe34]" />
+                      <CheckCircle2 className="h-4 w-4 text-[#36FE35]" />
                       Link copied!
                     </>
                   ) : (
                     <>
-                      <Copy className="w-4 h-4" />
+                      <Copy className="h-4 w-4" />
                       Copy download link
                     </>
                   )}
-                </motion.button>
+                </button>
+              </div>
 
-                {/* Warning */}
-                <div className="flex items-start gap-3 mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30">
-                  <AlertTriangle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <p className="font-medium text-yellow-500 mb-1">Important</p>
-                    <p className="text-white/60">
-                      Always create a system restore point before applying tweaks. 
-                      Use at your own risk.
-                    </p>
-                  </div>
+              <div className="mt-8 flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                <div className="icon-chip shrink-0 bg-[#36FE35]/15 text-[#36FE35]">
+                  <AlertTriangle className="h-5 w-5" />
+                </div>
+                <div className="text-sm leading-relaxed">
+                  <p className="font-semibold text-white">Important</p>
+                  <p className="mt-1 text-white/55">
+                    Always create a system restore point before applying tweaks.
+                    Use at your own risk.
+                  </p>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Right - Installation Steps */}
-          <motion.div 
-            className="space-y-8"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-          >
-            {/* Requirements */}
-            <div>
-              <h3 className="text-xl font-semibold mb-5 flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-[#35fe34]/10 flex items-center justify-center">
-                  <Check className="w-4 h-4 text-[#35fe34]" />
-                </div>
-                System Requirements
+          {/* Side tiles */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <div data-reveal className="card-paper">
+              <div className="mb-5 flex items-center justify-between">
+                <span className="index-tag">01 · Specs</span>
+                <span className="icon-chip bg-[#36FE35]/15 text-[#16191a]">
+                  <Check className="h-5 w-5" />
+                </span>
+              </div>
+              <h3 className="mb-4 text-lg font-semibold tracking-tight text-[#16191a]">
+                System requirements
               </h3>
-              <div className="space-y-3">
-                {requirements.map((req, index) => (
-                  <motion.div 
-                    key={req}
-                    className="flex items-center gap-3 p-3 glass-card"
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 + index * 0.1 }}
-                  >
-                    <div className="w-5 h-5 rounded-full bg-[#35fe34]/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-[#35fe34]" />
-                    </div>
-                    <span className="text-white/70">{req}</span>
-                  </motion.div>
+              <ul className="space-y-3">
+                {requirements.map((req) => (
+                  <li key={req} className="flex items-start gap-3 text-sm text-[#16191a]/70">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#36FE35]" />
+                    {req}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
-            {/* Steps */}
-            <div>
-              <h3 className="text-xl font-semibold mb-5">Installation Steps</h3>
-              <div className="space-y-4">
-                {steps.map((step, index) => (
-                  <motion.div
-                    key={step.step}
-                    className="flex items-start gap-4 p-4 glass-card hover:border-[#35fe34]/30 transition-all duration-300"
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 + index * 0.1 }}
-                    whileHover={{ x: 5 }}
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-[#35fe34]/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-[#35fe34] font-bold">{step.step}</span>
-                    </div>
+            <div data-reveal className="card-paper">
+              <div className="mb-5 flex items-center justify-between">
+                <span className="index-tag">02 · Install</span>
+                <span className="pill-outline">4 steps</span>
+              </div>
+              <h3 className="mb-4 text-lg font-semibold tracking-tight text-[#16191a]">
+                Installation steps
+              </h3>
+              <ol className="space-y-4">
+                {steps.map((step) => (
+                  <li key={step.step} className="flex items-start gap-3">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#16191a] font-mono text-xs font-bold text-[#36FE35]">
+                      {step.step}
+                    </span>
                     <div>
-                      <h4 className="font-medium mb-1">{step.title}</h4>
-                      <p className="text-sm text-white/50">{step.description}</p>
+                      <p className="text-sm font-semibold text-[#16191a]">{step.title}</p>
+                      <p className="mt-0.5 text-sm leading-relaxed text-[#16191a]/55">
+                        {step.description}
+                      </p>
                     </div>
-                  </motion.div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
 
-            {/* Support */}
-            <div className="p-5 glass-card border-[#35fe34]/30">
-              <p className="text-sm text-white/50 mb-3">Need help?</p>
-              <div className="flex gap-3">
-                <motion.a
-                  href="https://discord.gg/UQmBUXct"
+            <div data-reveal className="card-ink sm:col-span-2 lg:col-span-1">
+              <p className="index-tag text-white/50">Need help?</p>
+              <p className="mt-3 mb-5 max-w-xs text-sm leading-relaxed text-white/60">
+                Join the community for install tips, troubleshooting and the latest builds.
+              </p>
+              <div className="flex flex-wrap gap-2.5">
+                <a
+                  href={DISCORD_INVITE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#5865F2] text-sm font-medium transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#36FE35] px-5 py-2.5 text-sm font-semibold text-[#16191A] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
                 >
-                  <Gamepad2 className="w-4 h-4" />
+                  <Gamepad2 className="h-4 w-4" />
                   Discord
-                </motion.a>
-                <motion.a
+                </a>
+                <a
                   href="https://t.me/ZXWYTWEAKING"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0088cc]/10 hover:bg-[#0088cc]/20 border border-[#0088cc]/30 text-[#0088cc] text-sm font-medium transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/50 hover:text-white"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle className="h-4 w-4" />
                   Telegram
-                </motion.a>
+                </a>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
