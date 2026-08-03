@@ -1,20 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from './sections/Header';
 import { Hero } from './sections/Hero';
-import { Showcase } from './sections/Showcase';
-import { Features } from './sections/Features';
-import { Download } from './sections/Download';
-import { Changelog } from './sections/Changelog';
-import { Pricing } from './sections/Pricing';
-import { FAQ } from './sections/FAQ';
-import { Contact } from './sections/Contact';
-import { Footer } from './sections/Footer';
 import { BotCheck } from './components/BotCheck';
 import { Toaster } from './components/ui/sonner';
 import { PixelGrid } from './components/PixelGrid';
 import { ScrollProgress } from './components/ScrollProgress';
 import { NotFound } from './pages/NotFound';
+
+// Everything below the first viewport is code-split so the initial JS bundle only has to
+// contain the Hero — this is what the browser actually needs to reach FCP/LCP. Each section
+// is fetched lazily as its own chunk once React starts rendering, instead of all of them
+// blocking the same initial <script> execution.
+const Showcase = lazy(() => import('./sections/Showcase').then((m) => ({ default: m.Showcase })));
+const Features = lazy(() => import('./sections/Features').then((m) => ({ default: m.Features })));
+const Download = lazy(() => import('./sections/Download').then((m) => ({ default: m.Download })));
+const Changelog = lazy(() => import('./sections/Changelog').then((m) => ({ default: m.Changelog })));
+const Pricing = lazy(() => import('./sections/Pricing').then((m) => ({ default: m.Pricing })));
+const FAQ = lazy(() => import('./sections/FAQ').then((m) => ({ default: m.FAQ })));
+const Contact = lazy(() => import('./sections/Contact').then((m) => ({ default: m.Contact })));
+const Footer = lazy(() => import('./sections/Footer').then((m) => ({ default: m.Footer })));
 
 /** The site is a single landing page — anything else is a 404. */
 const KNOWN_ROUTES = ['/', '/index.html', ''];
@@ -72,15 +77,19 @@ function App() {
         <Header />
         <main>
           <Hero />
-          <Showcase />
-          <Pricing />
-          <Download />
-          <Features />
-          <Changelog />
-          <FAQ />
-          <Contact />
+          <Suspense fallback={null}>
+            <Showcase />
+            <Pricing />
+            <Download />
+            <Features />
+            <Changelog />
+            <FAQ />
+            <Contact />
+          </Suspense>
         </main>
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
       </motion.div>
 
       <Toaster

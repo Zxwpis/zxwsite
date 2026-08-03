@@ -11,6 +11,13 @@
     <link rel="alternate" href="https://zxwytweaking.online/" hreflang="x-default" />
     <link rel="icon" type="image/png" href="/logo.png" />
 
+    <!-- Preload the fonts used above the fold (Hero heading + body text) so the browser
+         fetches them immediately instead of discovering them only after CSS parses —
+         this shortens the time to the real Largest Contentful Paint text. -->
+    <link rel="preload" href="/fonts/Dotective.otf" as="font" type="font/otf" crossorigin />
+    <link rel="preload" href="/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/switzer-600.woff2" as="font" type="font/woff2" crossorigin />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ZXWY Tweaks V3" />
